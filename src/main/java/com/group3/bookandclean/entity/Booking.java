@@ -1,5 +1,7 @@
 package com.group3.bookandclean.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,13 +32,21 @@ public class Booking {
     @Temporal(TemporalType.TIME)
     private Date time;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @ManyToOne(targetEntity = Customer.class,fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer", nullable = false)
+    @JsonIgnore
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cleaner_id")
+    @Column(name = "customer", insertable = false, updatable = false)
+    private Long customerId;
+
+    @ManyToOne(targetEntity = Cleaner.class,fetch = FetchType.LAZY)
+    @JoinColumn(name = "cleaner")
+    @JsonIgnore
     private Cleaner cleaner;
+
+    @Column(name = "cleaner", insertable = false, updatable = false)
+    private Long cleanerId;
 
     @Column(nullable = false)
     private String status;

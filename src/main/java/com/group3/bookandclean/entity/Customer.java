@@ -1,6 +1,7 @@
 package com.group3.bookandclean.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Customer {
     @Column(nullable = false)
     private String address;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
     private List<Booking> bookings;
 
