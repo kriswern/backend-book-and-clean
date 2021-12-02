@@ -77,8 +77,19 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .status("Confirmed")
                 .build();
 
+        Booking booking3 = Booking.builder()
+                .description(customer2.getName())
+                .address(customer2.getAddress())
+                .date(new SimpleDateFormat("yyyy-mm-dd").parse("2023-05-14"))
+                .time(new SimpleDateFormat("HH:mm").parse("07:00"))
+                .customer(customer2)
+                .cleaner(cleaner2)
+                .status("Confirmed")
+                .build();
+
         bookingRepository.save(booking1);
         bookingRepository.save(booking2);
+        bookingRepository.save(booking3);
 
 
     }
