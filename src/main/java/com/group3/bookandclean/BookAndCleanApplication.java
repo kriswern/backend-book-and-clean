@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 import java.text.SimpleDateFormat;
-
-@SpringBootApplication
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class BookAndCleanApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
@@ -31,6 +31,7 @@ public class BookAndCleanApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
 
         Customer customer1 = Customer.builder()
                 .name("Oskar Andersson")

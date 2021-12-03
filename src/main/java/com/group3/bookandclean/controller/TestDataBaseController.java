@@ -41,4 +41,6 @@ public class TestDataBaseController {
     public List<Booking> fetchBookings() {
         return bookingRepository.findAll();
     }
+
+
 }
