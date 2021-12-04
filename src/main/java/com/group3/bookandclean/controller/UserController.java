@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
+/*    @Autowired
     private UserService userService;
 
     @GetMapping("")
@@ -26,7 +26,7 @@ public class UserController {
     public User getUserByMail(@PathVariable String email) {
         return userService.findUserByEmail(email);
         //.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-    }
+    }*/
 
 }
 

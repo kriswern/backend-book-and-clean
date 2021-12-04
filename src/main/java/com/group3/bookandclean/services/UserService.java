@@ -11,7 +11,7 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-
+/*
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -27,5 +27,5 @@ public class UserService {
         String encryptedPass = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPass);
         userRepository.save(user);
-    }
+    }*/
 }

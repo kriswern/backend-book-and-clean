@@ -8,12 +8,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:3000")
 public class BookingsController {
 
     @Autowired
@@ -22,7 +25,6 @@ public class BookingsController {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/addbookings")
     public boolean addBooking(@RequestBody BookingRequest request) throws ParseException {
 
@@ -45,9 +47,8 @@ public class BookingsController {
     }
     //OBS should only be accessible for admins !
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping(value = "/deletebookings")
-    public boolean removeBooking (@RequestParam String id){
+    public boolean removeBooking(@RequestBody String id) {
         long longId = Long.parseLong(id);
         boolean success = false;
 
@@ -55,10 +56,19 @@ public class BookingsController {
             Booking booking = bookingRepository.getById(longId);
             bookingRepository.delete(booking);
             success = true;
-        }catch (Exception ex){}
+        } catch (Exception ex) {
+        }
         return success;
     }
+
+    @GetMapping("/bookings")
+    public List<Booking> fetchBookings() {
+        return bookingRepository.findAll();
+    }
+
 }
+
+
 @Getter
 @Setter
 class BookingRequest {
