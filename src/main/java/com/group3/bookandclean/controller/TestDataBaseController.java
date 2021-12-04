@@ -37,10 +37,7 @@ public class TestDataBaseController {
         return cleanerRepository.findAll();
     }
 
-    @GetMapping("/bookings")
-    public List<Booking> fetchBookings() {
-        return bookingRepository.findAll();
-    }
+
 
 
 }
