@@ -43,7 +43,21 @@ public class BookingsController {
         bookingRepository.save(booking);
         return true;
     }
+    //OBS should only be accessible for admins !
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @DeleteMapping(value = "/deletebookings")
+    public boolean removeBooking (@RequestParam String id){
+        long longId = Long.parseLong(id);
+        boolean success = false;
+
+        try {
+            Booking booking = bookingRepository.getById(longId);
+            bookingRepository.delete(booking);
+            success = true;
+        }catch (Exception ex){}
+        return success;
+    }
 }
 @Getter
 @Setter
