@@ -1,6 +1,7 @@
 package com.group3.bookandclean.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -26,8 +27,16 @@ public class Customer {
     @Column(nullable = false)
     private String address;
 
+    @OneToOne(targetEntity = User.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user")
+    private User user;
+
+    @Column(name = "user", insertable = false, updatable = false)
+    private Long cleanerId;
+
     @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
     private List<Booking> bookings;
+
 
 }

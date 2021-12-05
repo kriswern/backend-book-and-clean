@@ -1,9 +1,7 @@
 package com.group3.bookandclean.entity;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
 
+import lombok.*;
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter
@@ -11,8 +9,9 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "cleaners")
-public class Cleaner {
+@Table(name = "admins")
+public class Admin {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +26,5 @@ public class Cleaner {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
     private User user;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cleaner")
-    private List<Booking> bookings;
-
-
 
 }
