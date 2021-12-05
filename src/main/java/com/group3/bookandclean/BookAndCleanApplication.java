@@ -3,6 +3,7 @@ package com.group3.bookandclean;
 import com.group3.bookandclean.entity.Booking;
 import com.group3.bookandclean.entity.Cleaner;
 import com.group3.bookandclean.entity.Customer;
+import com.group3.bookandclean.entity.User;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CleanerRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
@@ -13,7 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 import java.text.SimpleDateFormat;
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class BookAndCleanApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
@@ -32,15 +34,43 @@ public class BookAndCleanApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        User user1 = User.builder()
+                .email("email")
+                .password("password")
+                .type("type")
+                .build();
+
+        User user2 = User.builder()
+                .email("email")
+                .password("password")
+                .type("type")
+                .build();
+
+        User user3 = User.builder()
+                .email("email")
+                .password("password")
+                .type("type")
+                .build();
+
+        User user4 = User.builder()
+                .email("email")
+                .password("password")
+                .type("type")
+                .build();
+
+
+
 
         Customer customer1 = Customer.builder()
                 .name("Oskar Andersson")
                 .address("Åhusgatan 3")
+                .user(user1)
                 .build();
 
         Customer customer2 = Customer.builder()
                 .name("Kenneth Karlsson")
                 .address("Afrika")
+                .user(user2)
                 .build();
 
         customerRepository.save(customer1);
@@ -49,11 +79,13 @@ public class BookAndCleanApplication implements CommandLineRunner {
         Cleaner cleaner1 = Cleaner.builder()
                 .name("Tina Törner")
                 .address("Sjöbo 1")
+                .user(user3)
                 .build();
 
         Cleaner cleaner2 = Cleaner.builder()
                 .name("Silja Line")
                 .address("Östersjön 43a")
+                .user(user4)
                 .build();
 
         cleanerRepository.save(cleaner1);
