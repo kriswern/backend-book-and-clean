@@ -1,43 +1,33 @@
-package com.group3.bookandclean.entity;
 
+package com.group3.bookandclean.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="account")
+@Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    private long id;
 
-    @Column(name = "email", unique = true)
+    @Column(nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @JsonIgnore
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "userType")
-    private String userType;
+    @Column(nullable = false)
+    private String type;
 
 
-    public String getEmail() {
-        return email;
-    }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password= password;
-    }
 }
-
