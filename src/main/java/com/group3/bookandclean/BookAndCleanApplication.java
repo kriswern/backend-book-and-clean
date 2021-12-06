@@ -12,14 +12,21 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.text.SimpleDateFormat;
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@SpringBootApplication
 public class BookAndCleanApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(BookAndCleanApplication.class, args);
+    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
     }
 
     @Autowired
@@ -41,20 +48,20 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .build();
 
         User user2 = User.builder()
-                .email("email")
-                .password("password")
+                .email("email2")
+                .password("password2")
                 .type("type")
                 .build();
 
         User user3 = User.builder()
-                .email("email")
-                .password("password")
+                .email("email3")
+                .password("password3")
                 .type("type")
                 .build();
 
         User user4 = User.builder()
-                .email("email")
-                .password("password")
+                .email("email4")
+                .password("password4")
                 .type("type")
                 .build();
 
