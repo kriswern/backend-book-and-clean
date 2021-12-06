@@ -3,6 +3,8 @@ package com.group3.bookandclean.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Data
 @NoArgsConstructor
@@ -24,5 +26,8 @@ public class User {
 
     @Column(nullable = false)
     private String type;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
 
 }
