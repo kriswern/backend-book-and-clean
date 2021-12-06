@@ -2,11 +2,9 @@
 package com.group3.bookandclean.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -26,4 +24,5 @@ public class User {
 
     @Column(nullable = false)
     private String type;
+
 }
