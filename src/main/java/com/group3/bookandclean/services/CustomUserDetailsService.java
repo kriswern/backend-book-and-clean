@@ -1,4 +1,4 @@
-package com.group3.bookandclean.login;
+package com.group3.bookandclean.services;
 
 import com.group3.bookandclean.entity.User;
 import com.group3.bookandclean.repository.UserRepository;

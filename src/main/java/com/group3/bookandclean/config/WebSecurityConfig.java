@@ -1,6 +1,6 @@
 package com.group3.bookandclean.config;
 
-import com.group3.bookandclean.login.CustomUserDetailsService;
+import com.group3.bookandclean.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
