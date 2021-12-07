@@ -27,6 +27,7 @@ public class LoginController {
         return "Welcome to Cleaning Booking Portal!!";
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try{
