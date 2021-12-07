@@ -1,11 +1,12 @@
 package com.group3.bookandclean.controller;
 
+
+import com.group3.bookandclean.request.BookingRequest;
 import com.group3.bookandclean.entity.Booking;
 import com.group3.bookandclean.entity.Customer;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +16,12 @@ import java.util.List;
 
 import static java.lang.Long.parseLong;
 
-/*
+@Slf4j
 @RestController
-@RequestMapping("/api/addBooking")
+@RequestMapping("/api/customer")
 @CrossOrigin(origins = "http://localhost:3000")
-public class BookingsController {
+public class CustomerController {
+
 
     @Autowired
     private BookingRepository bookingRepository;
@@ -27,18 +29,8 @@ public class BookingsController {
     @Autowired
     private CustomerRepository customerRepository;
 
-
-    //NOT USED ANYMORE, JUST THE BookingRequest. Maybe put in seperate
-    @PostMapping(value = "/addbookings")
+    @PostMapping(value = "/addbooking")
     public boolean addBooking(@RequestBody BookingRequest request) throws ParseException {
-
-
-        Customer customer1 = Customer.builder()
-                .name("test test")
-                .address("Åhusgatan 3")
-                .build();
-        customerRepository.save(customer1);
-
         Long userId = parseLong(request.getCustomerId());
         Customer customer = customerRepository.getById(userId);
 
@@ -53,39 +45,19 @@ public class BookingsController {
         bookingRepository.save(booking);
         return true;
     }
-    //OBS should only be accessible for admins !
 
-    @DeleteMapping(value = "/deletebookings")
-    public boolean removeBooking(@RequestBody String id) {
-        long longId = parseLong(id);
-        boolean success = false;
-
-        try {
-            Booking booking = bookingRepository.getById(longId);
-            bookingRepository.delete(booking);
-            success = true;
-        } catch (Exception ex) {
-        }
-        return success;
-    }
 
     @GetMapping("/bookings")
-    public List<Booking> fetchBookings() {
-        return bookingRepository.findAll();
+    public List<Booking> fetchCustomerBookings(@RequestParam String id) {
+        log.info(id);
+    return customerRepository.fetchBookingsByCustomerId(parseLong(id));
     }
 
+
+
+
+
+
+
+
 }
-
-
-@Getter
-@Setter
-class BookingRequest {
-
-    String name;
-    String address;
-    String date;
-    String time;
-
-    String customerId;
-
-}*/
