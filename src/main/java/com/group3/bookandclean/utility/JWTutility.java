@@ -28,6 +28,7 @@ public class JWTutility {
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .withIssuer("Team3")
                 .sign(algorithm);
     }
 
