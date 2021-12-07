@@ -8,10 +8,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 
-@Configuration
+/*@Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
+ *//*   @Autowired
     private CustomUserDetailsService userDetailsService;
 
     //@Autowired
@@ -24,5 +24,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService);
                 //.passwordEncoder(passwordEncoder);
 
-    }
-}
+    }*//*
+
+
+
+}*/
