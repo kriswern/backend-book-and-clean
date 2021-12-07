@@ -1,5 +1,5 @@
 package com.group3.bookandclean.config;
-
+/*
 import com.group3.bookandclean.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -24,8 +24,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService);
                 //.passwordEncoder(passwordEncoder);
 
-    }*//*
 
-
-
+    }
 }*/
+
+
+
+
