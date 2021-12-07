@@ -23,10 +23,6 @@ public class BookAndCleanApplication implements CommandLineRunner {
     public static void main(String[] args) {
         SpringApplication.run(BookAndCleanApplication.class, args);
     }
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
 
     @Autowired
     private BookingRepository bookingRepository;
