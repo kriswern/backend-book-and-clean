@@ -18,17 +18,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.text.SimpleDateFormat;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class BookAndCleanApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(BookAndCleanApplication.class, args);
     }
-    @Bean
+   /* @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
-
+*/
     @Autowired
     private BookingRepository bookingRepository;
 
