@@ -6,6 +6,7 @@ import com.group3.bookandclean.entity.Booking;
 import com.group3.bookandclean.entity.Customer;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
+import com.group3.bookandclean.services.BookingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,28 +25,15 @@ public class CustomerController {
 
 
     @Autowired
-    private BookingRepository bookingRepository;
+    BookingService bookingService;
 
     @Autowired
     private CustomerRepository customerRepository;
 
     @PostMapping(value = "/addbooking")
-    public boolean addBooking(@RequestBody BookingRequest request) throws ParseException {
-        Long userId = parseLong(request.getCustomerId());
-        Customer customer = customerRepository.getById(userId);
-
-        Booking booking = Booking.builder()
-                .description(request.getName())
-                .address(request.getAddress())
-                .date(new SimpleDateFormat("yyyy-mm-dd").parse(request.getDate()))
-                .time(new SimpleDateFormat("HH:mm").parse(request.getTime()))
-                .customer(customer)
-                .status("unconfirmed")
-                .build();
-        bookingRepository.save(booking);
-        return true;
+    public void addBooking(@RequestBody BookingRequest request) throws ParseException {
+        bookingService.registerBooking(request);
     }
-
 
     @GetMapping("/bookings")
     public List<Booking> fetchCustomerBookings(@RequestParam String id) {
