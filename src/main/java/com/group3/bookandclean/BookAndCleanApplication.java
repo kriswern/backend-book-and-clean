@@ -1,12 +1,10 @@
 package com.group3.bookandclean;
 
-import com.group3.bookandclean.entity.Booking;
-import com.group3.bookandclean.entity.Cleaner;
-import com.group3.bookandclean.entity.Customer;
-import com.group3.bookandclean.entity.User;
+import com.group3.bookandclean.entity.*;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CleanerRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
+import com.group3.bookandclean.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,19 +15,14 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
-
-@SpringBootApplication ( exclude = {SecurityAutoConfiguration.class} )
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class BookAndCleanApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(BookAndCleanApplication.class, args);
     }
-
-    /*@Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }*/
 
     @Autowired
     private BookingRepository bookingRepository;
@@ -39,6 +32,9 @@ public class BookAndCleanApplication implements CommandLineRunner {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -66,6 +62,9 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .password("password4")
                 .type("type")
                 .build();
+
+
+
 
         Customer customer1 = Customer.builder()
                 .name("Oskar Andersson")

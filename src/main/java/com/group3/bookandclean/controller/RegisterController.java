@@ -6,12 +6,17 @@ import com.group3.bookandclean.entity.User;
 import com.group3.bookandclean.repository.CleanerRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
 import com.group3.bookandclean.repository.UserRepository;
+import com.group3.bookandclean.request.RegisterRequest;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -26,15 +31,19 @@ public class RegisterController {
     CleanerRepository cleanerRepository;
 
     @PostMapping(value = "/register")
-    public boolean register(@RequestBody RegisterForm registerForm) {
-        User user = User.builder()
+    public ResponseEntity<?> register(@RequestBody RegisterRequest registerForm) {
+        User user = userRepository.findByEmail(registerForm.getEmail());
+        if (user != null) {
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+        user = User.builder()
                 .email(registerForm.getEmail())
                 .password(registerForm.getPassword())
                 .type(registerForm.getType())
                 .build();
         userRepository.save(user);
 
-        if (registerForm.type.equals("Cleaner")){
+        if (registerForm.getType().equals("Cleaner")){
             Cleaner cleaner = Cleaner.builder()
                     .name(registerForm.getName())
                     .address(registerForm.getAddress())
@@ -50,16 +59,9 @@ public class RegisterController {
                     .build();
             customerRepository.save(customer);
         }
-        return true;
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
 
-@Data
-class RegisterForm {
-    String name;
-    String email;
-    String password;
-    String address;
-    String type;
-}
+
 
