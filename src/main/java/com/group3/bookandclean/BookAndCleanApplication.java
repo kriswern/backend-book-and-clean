@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class BookAndCleanApplication implements CommandLineRunner {
 
     public static void main(String[] args) {

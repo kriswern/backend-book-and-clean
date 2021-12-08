@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @EnableWebSecurity
 @CrossOrigin(origins = { "http://localhost:3000" })
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private UserServiceImpl userService;
     @Autowired
