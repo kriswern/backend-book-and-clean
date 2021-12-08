@@ -1,8 +1,6 @@
 package com.group3.bookandclean.services;
 
-import com.group3.bookandclean.entity.Role;
 import com.group3.bookandclean.entity.User;
-import com.group3.bookandclean.repository.RoleRepo;
 import com.group3.bookandclean.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +18,6 @@ import java.util.List;
 @Service @RequiredArgsConstructor @Transactional @Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
-    private final RoleRepo roleRepo;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -32,9 +29,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             log.info("User {} found in database", username);
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        });
+        authorities.add(new SimpleGrantedAuthority(user.getType()));
+
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 
@@ -45,17 +41,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Role saveRole(Role role) {
-        log.info("Saving new role {} to database", role.getName());
-        return roleRepo.save(role);
+    public String getType(String username) {
+        User user = userRepository.findByEmail(username);
+
+        return user.getType();
     }
 
     @Override
     public void addRoleToUser(String username, String roleName) {
-        log.info("Adding role {} to user {}", roleName, username);
         User user = userRepository.findByEmail(username);
-        Role role = roleRepo.findByName(roleName);
-        user.getRoles().add(role);
+        user.setType(roleName);
+        userRepository.save(user);
     }
 
     @Override

@@ -7,11 +7,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -51,7 +49,7 @@ public class JWTutility {
         return decodedJWT.getSubject();
     }
 
-    public Collection<SimpleGrantedAuthority> getRolesFromToken(String token) {
+    public Collection<SimpleGrantedAuthority> getRoleFromToken(String token) {
         DecodedJWT decodedJWT = verifyToken(token);
         String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();

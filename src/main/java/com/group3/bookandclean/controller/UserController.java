@@ -1,9 +1,7 @@
 package com.group3.bookandclean.controller;
 
-import com.group3.bookandclean.entity.Role;
 import com.group3.bookandclean.entity.User;
 import com.group3.bookandclean.services.UserService;
-import com.group3.bookandclean.services.UserServiceImpl;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +23,6 @@ public class UserController {
     @PostMapping("/save")
     public ResponseEntity<User>saveUser(@RequestBody User user) {
         return ResponseEntity.ok().body(userService.saveUser(user));
-    }
-
-    @PostMapping("/role/save")
-    public ResponseEntity<Role>saveRole(@RequestBody Role role) {
-        return ResponseEntity.ok().body(userService.saveRole(role));
     }
 
     @PostMapping("/role/addtouser")

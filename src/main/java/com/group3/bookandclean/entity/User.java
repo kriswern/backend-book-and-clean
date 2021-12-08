@@ -27,7 +27,4 @@ public class User {
     @Column(nullable = false)
     private String type;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role> roles = new ArrayList<>();
-
 }
