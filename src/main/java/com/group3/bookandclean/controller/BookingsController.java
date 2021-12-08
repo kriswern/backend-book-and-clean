@@ -69,6 +69,7 @@ public class BookingsController {
         return success;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/bookings")
     public List<Booking> fetchBookings() {
         return bookingRepository.findAll();

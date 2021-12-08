@@ -3,6 +3,8 @@ package com.group3.bookandclean.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Data
 @NoArgsConstructor
