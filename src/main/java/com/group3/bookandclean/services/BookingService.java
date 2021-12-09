@@ -1,9 +1,12 @@
 package com.group3.bookandclean.services;
 
 import com.group3.bookandclean.entity.Booking;
+import com.group3.bookandclean.entity.Cleaner;
 import com.group3.bookandclean.entity.Customer;
 import com.group3.bookandclean.repository.BookingRepository;
+import com.group3.bookandclean.repository.CleanerRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
+import com.group3.bookandclean.request.AddCleanerRequest;
 import com.group3.bookandclean.request.BookingRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,9 @@ public class BookingService {
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    CleanerRepository cleanerRepository;
 
     public boolean registerBooking(BookingRequest request) throws ParseException {
         Long userId = parseLong(request.getCustomerId());
@@ -52,6 +58,16 @@ public class BookingService {
         return success;
     }
 
+
+    public boolean addCleaner(AddCleanerRequest request) {
+        Cleaner cleaner = cleanerRepository.getById(parseLong(request.getCleanerId()));
+        Booking booking = bookingRepository.getById(parseLong(request.getBookingId()));
+
+        booking.setCleaner(cleaner);
+        bookingRepository.save(booking);
+    return true;
+
+    }
 
 
 }

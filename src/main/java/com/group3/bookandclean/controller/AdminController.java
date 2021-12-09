@@ -1,6 +1,7 @@
 package com.group3.bookandclean.controller;
 
 
+import com.group3.bookandclean.request.AddCleanerRequest;
 import com.group3.bookandclean.request.BookingRequest;
 import com.group3.bookandclean.entity.Booking;
 import com.group3.bookandclean.entity.Cleaner;
@@ -9,15 +10,18 @@ import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CleanerRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
 import com.group3.bookandclean.services.BookingService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.Long.parseLong;
-
+@Slf4j
 @RestController
 @RequestMapping("/api/admin")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -57,8 +61,20 @@ public class AdminController {
         return bookingService.deleteBooking(id);
     }
 
+   /* @PostMapping(value = "/assigncleaner")
+    public boolean assignCleaner(@RequestBody AddCleanerRequest request) {
 
+        return bookingService.addCleaner(request);
+    }*/
 
+    @PutMapping("/assigncleaner")
+    public ResponseEntity<Booking> assignCleanerToBooking(@RequestBody AddCleanerRequest request)  {
+        Cleaner cleaner = cleanerRepository.getById(parseLong(request.getCleanerId()));
+        Booking booking = bookingRepository.getById(parseLong(request.getBookingId()));
+
+        booking.setCleaner(cleaner);
+        booking.setStatus("pending");
+        final Booking updatedBooking = bookingRepository.save(booking);
+        return ResponseEntity.ok(updatedBooking);
     }
-
-
+}
