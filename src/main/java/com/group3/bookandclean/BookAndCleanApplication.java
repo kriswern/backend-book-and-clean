@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+@SpringBootApplication ( exclude = {SecurityAutoConfiguration.class} )
 public class BookAndCleanApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
@@ -42,25 +42,25 @@ public class BookAndCleanApplication implements CommandLineRunner {
         User user1 = User.builder()
                 .email("email")
                 .password("password")
-                .type("type")
+                .type("customer")
                 .build();
 
         User user2 = User.builder()
                 .email("email2")
                 .password("password2")
-                .type("type")
+                .type("cleaner")
                 .build();
 
         User user3 = User.builder()
                 .email("email3")
                 .password("password3")
-                .type("type")
+                .type("admin")
                 .build();
 
         User user4 = User.builder()
                 .email("email4")
                 .password("password4")
-                .type("type")
+                .type("customer")
                 .build();
 
 
