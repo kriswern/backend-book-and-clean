@@ -9,8 +9,10 @@ import com.group3.bookandclean.entity.Customer;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CleanerRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
+import com.group3.bookandclean.request.ByIdRequest;
 import com.group3.bookandclean.services.BookingService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,25 +58,27 @@ public class AdminController {
         return bookingService.registerBooking(request);
     }
 
-    @DeleteMapping(value = "/deletebookings")
-    public boolean removeBooking(@RequestBody String id) {
+    @DeleteMapping(value = "/deletebookings{id}")
+    public boolean removeBooking(@RequestParam String id) {
         return bookingService.deleteBooking(id);
     }
 
-   /* @PostMapping(value = "/assigncleaner")
-    public boolean assignCleaner(@RequestBody AddCleanerRequest request) {
-
-        return bookingService.addCleaner(request);
-    }*/
-
     @PutMapping("/assigncleaner")
     public ResponseEntity<Booking> assignCleanerToBooking(@RequestBody AddCleanerRequest request)  {
-        Cleaner cleaner = cleanerRepository.getById(parseLong(request.getCleanerId()));
-        Booking booking = bookingRepository.getById(parseLong(request.getBookingId()));
+     return  bookingService.addCleaner(request);
 
-        booking.setCleaner(cleaner);
-        booking.setStatus("pending");
-        final Booking updatedBooking = bookingRepository.save(booking);
-        return ResponseEntity.ok(updatedBooking);
     }
+
+    @PutMapping("/removecleaner")
+    public ResponseEntity<Booking> removeCleanerFromBooking(@RequestBody ByIdRequest request)  {
+
+         return bookingService.removeCleaner(request.getId());
+    }
+
+    @GetMapping("/cleanername{id}")
+    public String getCleanerName(@RequestParam String id) {
+        Cleaner cleaner = cleanerRepository.getById(parseLong(id));
+        return cleaner.getName();
+    }
+
 }

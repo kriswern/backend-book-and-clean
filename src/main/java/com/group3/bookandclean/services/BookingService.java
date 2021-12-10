@@ -9,8 +9,8 @@ import com.group3.bookandclean.repository.CustomerRepository;
 import com.group3.bookandclean.request.AddCleanerRequest;
 import com.group3.bookandclean.request.BookingRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,16 +58,22 @@ public class BookingService {
         return success;
     }
 
-
-    public boolean addCleaner(AddCleanerRequest request) {
+    public ResponseEntity<Booking> addCleaner(AddCleanerRequest request) {
         Cleaner cleaner = cleanerRepository.getById(parseLong(request.getCleanerId()));
         Booking booking = bookingRepository.getById(parseLong(request.getBookingId()));
 
         booking.setCleaner(cleaner);
-        bookingRepository.save(booking);
-    return true;
-
+        booking.setStatus("pending");
+        final Booking updatedBooking = bookingRepository.save(booking);
+        return ResponseEntity.ok(updatedBooking);
     }
 
+    public ResponseEntity<Booking> removeCleaner(String bookingId) {
+        Booking booking = bookingRepository.getById(parseLong(bookingId));
 
+        booking.setCleaner(null);
+        booking.setStatus("unconfirmed");
+        final Booking updatedBooking = bookingRepository.save(booking);
+        return ResponseEntity.ok(updatedBooking);
+    }
 }

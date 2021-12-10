@@ -40,6 +40,12 @@ public class CustomerController {
         bookingService.registerBooking(request);
     }
 
+    @DeleteMapping(value = "/deletebookings{id}")
+    public boolean removeBooking(@RequestParam String id) {
+        log.info("id: {}", id);
+        return bookingService.deleteBooking(id);
+    }
+
     @GetMapping("/bookings")
     public List<Booking> fetchCustomerBookings(@RequestParam String name) {
         User user = userService.getUser(name);
