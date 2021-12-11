@@ -39,7 +39,7 @@ public class CleanerController {
         Cleaner cleaner = cleanerRepository.findCleanerByUser(user);
         Long id = cleaner.getId();
         log.info(String.valueOf(id));
-        return bookingRepository.findBookingByCustomerId(id);
+        return bookingRepository.findBookingByCleanerId(id);
     }
 
 
