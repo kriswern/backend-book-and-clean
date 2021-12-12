@@ -39,7 +39,7 @@ public class BookingService {
                 .date(new SimpleDateFormat("yyyy-mm-dd").parse(request.getDate()))
                 .time(new SimpleDateFormat("HH:mm").parse(request.getTime()))
                 .customer(customer)
-                .status("unconfirmed")
+                .status(Status.UNCONFIRMED.toString())
                 .build();
         bookingRepository.save(booking);
         return true;
@@ -63,7 +63,7 @@ public class BookingService {
         Booking booking = bookingRepository.getById(parseLong(request.getBookingId()));
 
         booking.setCleaner(cleaner);
-        booking.setStatus("pending");
+        booking.setStatus(Status.CONFIRMED.toString());
         final Booking updatedBooking = bookingRepository.save(booking);
         return ResponseEntity.ok(updatedBooking);
     }
@@ -72,7 +72,7 @@ public class BookingService {
         Booking booking = bookingRepository.getById(parseLong(bookingId));
 
         booking.setCleaner(null);
-        booking.setStatus("unconfirmed");
+        booking.setStatus(Status.UNCONFIRMED.toString());
         final Booking updatedBooking = bookingRepository.save(booking);
         return ResponseEntity.ok(updatedBooking);
     }
