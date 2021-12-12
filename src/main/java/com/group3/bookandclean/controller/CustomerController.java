@@ -1,6 +1,7 @@
 package com.group3.bookandclean.controller;
 
 
+import com.group3.bookandclean.entity.Cleaner;
 import com.group3.bookandclean.entity.User;
 import com.group3.bookandclean.request.BookingRequest;
 import com.group3.bookandclean.entity.Booking;
@@ -30,10 +31,13 @@ public class CustomerController {
     BookingService bookingService;
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private BookingRepository bookingRepository;
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    CustomerRepository customerRepository;
 
     @PostMapping(value = "/addbooking")
     public void addBooking(@RequestBody BookingRequest request) throws ParseException {
@@ -49,9 +53,20 @@ public class CustomerController {
     @GetMapping("/bookings")
     public List<Booking> fetchCustomerBookings(@RequestParam String name) {
         User user = userService.getUser(name);
-        Long id = user.getId();
+        Customer customer = customerRepository.findCustomerByUser(user);
+        Long id = customer.getId();
         log.info(String.valueOf(id));
-    return customerRepository.fetchBookingsByCustomerId(id);
+        return bookingRepository.findBookingByCustomerId(id);
+    }
+
+    @GetMapping("/customerid")
+    public String getCustomerID(@RequestParam String name) {
+        User user = userService.getUser(name);
+        Customer customer = customerRepository.findCustomerByUser(user);
+        String id = String.valueOf(customer.getId());
+
+        return id;
+
     }
 
 

@@ -8,7 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-
+    List<Booking> findBookingByCleanerId(Long id);
+    List<Booking> findBookingByCustomerId(Long id);
 
 
 
