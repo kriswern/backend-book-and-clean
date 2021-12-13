@@ -11,7 +11,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.net.PasswordAuthentication;
 import java.text.SimpleDateFormat;
 
 @SpringBootApplication ( exclude = {SecurityAutoConfiguration.class} )
@@ -32,25 +34,27 @@ public class BookAndCleanApplication implements CommandLineRunner {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
 
         User user1 = User.builder()
                 .email("customer")
-                .password("customer")
+                .password(passwordEncoder.encode("customer"))
                 .type("customer")
                 .build();
 
         User user2 = User.builder()
                 .email("customer2")
-                .password("customer2")
+                .password(passwordEncoder.encode("customer2"))
                 .type("customer")
                 .build();
 
         User user3 = User.builder()
                 .email("admin")
-                .password("admin")
+                .password(passwordEncoder.encode("admin"))
                 .type("admin")
                 .build();
 
@@ -58,13 +62,13 @@ public class BookAndCleanApplication implements CommandLineRunner {
 
         User user4 = User.builder()
                 .email("cleaner")
-                .password("cleaner")
+                .password(passwordEncoder.encode("cleaner"))
                 .type("cleaner")
                 .build();
 
         User user5 = User.builder()
                 .email("cleaner2")
-                .password("cleaner2")
+                .password(passwordEncoder.encode("cleaner2"))
                 .type("cleaner")
                 .build();
 
