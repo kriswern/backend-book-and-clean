@@ -10,6 +10,7 @@ import com.group3.bookandclean.request.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,9 @@ public class RegisterController {
     @Autowired
     CleanerRepository cleanerRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping(value = "/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest registerForm) {
         User user = userRepository.findByEmail(registerForm.getEmail());
@@ -35,12 +39,12 @@ public class RegisterController {
         }
         user = User.builder()
                 .email(registerForm.getEmail())
-                .password(registerForm.getPassword())
+                .password(passwordEncoder.encode(registerForm.getPassword()))
                 .type(registerForm.getType())
                 .build();
         userRepository.save(user);
 
-        if (registerForm.getType().equals("Cleaner")){
+        if (registerForm.getType().equals("cleaner")){
             Cleaner cleaner = Cleaner.builder()
                     .name(registerForm.getName())
                     .address(registerForm.getAddress())
