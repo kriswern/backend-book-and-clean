@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.net.PasswordAuthentication;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @SpringBootApplication ( exclude = {SecurityAutoConfiguration.class} )
 public class BookAndCleanApplication implements CommandLineRunner {
@@ -73,14 +75,14 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .build();
 
         Customer customer1 = Customer.builder()
-                .name("Oskar Andersson")
-                .address("Åhusgatan 3")
+                .name("Signe Student")
+                .address("Karlskronaplan 3")
                 .user(user1)
                 .build();
 
         Customer customer2 = Customer.builder()
                 .name("Kenneth Karlsson")
-                .address("Afrika")
+                .address("von Rosens väg 15")
                 .user(user2)
                 .build();
 
@@ -88,13 +90,13 @@ public class BookAndCleanApplication implements CommandLineRunner {
         customerRepository.save(customer2);
 
         Cleaner cleaner1 = Cleaner.builder()
-                .name("Tina Törner")
-                .address("Sjöbo 1")
+                .name("Marcus Karlsson")
+                .address("Sjöbo byväg 1")
                 .user(user4)
                 .build();
 
         Cleaner cleaner2 = Cleaner.builder()
-                .name("Silja Line")
+                .name("Caren Johnson")
                 .address("Östersjön 43a")
                 .user(user5)
                 .build();
@@ -105,8 +107,8 @@ public class BookAndCleanApplication implements CommandLineRunner {
         Booking booking1 = Booking.builder()
                 .description(customer1.getName())
                 .address(customer1.getAddress())
-                .date(new SimpleDateFormat("yyyy-mm-dd").parse("2021-12-01"))
-                .time(new SimpleDateFormat("HH:mm").parse("16:30"))
+                .date(LocalDate.parse("2021-12-01"))
+                .time(LocalTime.parse("16:30"))
                 .customer(customer1)
                 .status(Status.UNCONFIRMED.toString())
                 .build();
@@ -114,8 +116,8 @@ public class BookAndCleanApplication implements CommandLineRunner {
         Booking booking2 = Booking.builder()
                 .description(customer2.getName())
                 .address(customer2.getAddress())
-                .date(new SimpleDateFormat("yyyy-mm-dd").parse("2022-02-01"))
-                .time(new SimpleDateFormat("HH:mm").parse("17:25"))
+                .date(LocalDate.parse("2022-07-01"))
+                .time(LocalTime.parse("17:25"))
                 .customer(customer2)
                 .cleaner(cleaner1)
                 .status(Status.CONFIRMED.toString())
@@ -124,8 +126,8 @@ public class BookAndCleanApplication implements CommandLineRunner {
         Booking booking3 = Booking.builder()
                 .description(customer2.getName())
                 .address(customer2.getAddress())
-                .date(new SimpleDateFormat("yyyy-mm-dd").parse("2023-05-14"))
-                .time(new SimpleDateFormat("HH:mm").parse("07:00"))
+                .date(LocalDate.parse("2023-05-14"))
+                .time(LocalTime.parse("07:00"))
                 .customer(customer2)
                 .cleaner(cleaner2)
                 .status(Status.CONFIRMED.toString())
@@ -135,8 +137,8 @@ public class BookAndCleanApplication implements CommandLineRunner {
         Booking booking4 = Booking.builder()
                 .description(customer2.getName())
                 .address(customer2.getAddress())
-                .date(new SimpleDateFormat("yyyy-mm-dd").parse("2022-02-01"))
-                .time(new SimpleDateFormat("HH:mm").parse("17:25"))
+                .date(LocalDate.parse("2022-02-01"))
+                .time(LocalTime.parse("17:25"))
                 .customer(customer2)
                 .cleaner(cleaner2)
                 .status(Status.CONFIRMED.toString())
@@ -145,8 +147,8 @@ public class BookAndCleanApplication implements CommandLineRunner {
         Booking booking5 = Booking.builder()
                 .description(customer2.getName())
                 .address(customer2.getAddress())
-                .date(new SimpleDateFormat("yyyy-mm-dd").parse("2021-12-01"))
-                .time(new SimpleDateFormat("HH:mm").parse("17:25"))
+                .date(LocalDate.parse("2021-12-01"))
+                .time(LocalTime.parse("17:25"))
                 .customer(customer2)
                 .status(Status.UNCONFIRMED.toString())
                 .build();

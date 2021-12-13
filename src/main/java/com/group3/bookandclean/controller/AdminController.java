@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.lang.Long.parseLong;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/admin")
@@ -54,7 +55,7 @@ public class AdminController {
     }
 
     @PostMapping(value = "/addbooking")
-    public boolean addBooking(@RequestBody BookingRequest request) throws ParseException {
+    public ResponseEntity<?> addBooking(@RequestBody BookingRequest request) throws ParseException {
         return bookingService.registerBooking(request);
     }
 
