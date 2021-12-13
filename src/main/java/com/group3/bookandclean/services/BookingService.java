@@ -53,15 +53,7 @@ public class BookingService {
                 if (booking.getDate().equals(date)) {
                     LocalDateTime newBooking = LocalDateTime.of(date, time);
                     LocalDateTime oldBooking = LocalDateTime.of(booking.getDate(), booking.getTime());
-                    long newBookingTimeInSeconds = newBooking.toEpochSecond(ZoneOffset.UTC);
-                    long oldBookingTimeInSeconds = oldBooking.toEpochSecond(ZoneOffset.UTC);
-
-                    //For hours in seconds
-                    int difference = 60 * 60 * 4;
-
-                    log.info(String.valueOf(Math.abs(newBookingTimeInSeconds - oldBookingTimeInSeconds)));
-                    //If that booking is within 4 hours of the other booking
-                    if (Math.abs(newBookingTimeInSeconds - oldBookingTimeInSeconds) < difference)
+                    if (compareTimeOfBookings(newBooking, oldBooking))
                         return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
                 }
             }
@@ -75,6 +67,7 @@ public class BookingService {
                     .status(Status.UNCONFIRMED.toString())
                     .build();
             bookingRepository.save(booking);
+
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -94,14 +87,44 @@ public class BookingService {
         return success;
     }
 
-    public ResponseEntity<Booking> addCleaner(AddCleanerRequest request) {
-        Cleaner cleaner = cleanerRepository.getById(parseLong(request.getCleanerId()));
-        Booking booking = bookingRepository.getById(parseLong(request.getBookingId()));
+    public ResponseEntity<?> addCleaner(AddCleanerRequest request) {
 
-        booking.setCleaner(cleaner);
-        booking.setStatus(Status.CONFIRMED.toString());
-        final Booking updatedBooking = bookingRepository.save(booking);
-        return ResponseEntity.ok(updatedBooking);
+        try {
+            Cleaner cleaner = cleanerRepository.getById(parseLong(request.getCleanerId()));
+            Booking booking = bookingRepository.getById(parseLong(request.getBookingId()));
+
+            List<Booking> cleanerBookings = bookingRepository.findBookingByCleanerId(cleaner.getId());
+
+            for (Booking cleanerBooking : cleanerBookings) {
+                if (booking.getDate().equals(cleanerBooking.getDate())) {
+                    LocalDateTime newBooking = LocalDateTime.of(booking.getDate(), booking.getTime());
+                    LocalDateTime oldBooking = LocalDateTime.of(cleanerBooking.getDate(), cleanerBooking.getTime());
+                    if (compareTimeOfBookings(newBooking, oldBooking))
+                        return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+                }
+            }
+            booking.setCleaner(cleaner);
+            booking.setStatus(Status.CONFIRMED.toString());
+            bookingRepository.save(booking);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    private boolean compareTimeOfBookings(LocalDateTime newBooking, LocalDateTime oldBooking) {
+        long newBookingTimeInSeconds = newBooking.toEpochSecond(ZoneOffset.UTC);
+        long oldBookingTimeInSeconds = oldBooking.toEpochSecond(ZoneOffset.UTC);
+
+        //For hours in seconds
+        int difference = 60 * 60 * 4;
+
+        log.info(String.valueOf(Math.abs(newBookingTimeInSeconds - oldBookingTimeInSeconds)));
+        //If that booking is within 4 hours of the other booking
+        if (Math.abs(newBookingTimeInSeconds - oldBookingTimeInSeconds) < difference)
+            return true;
+        return false;
     }
 
     public ResponseEntity<Booking> removeCleaner(String bookingId) {
@@ -111,17 +134,5 @@ public class BookingService {
         booking.setStatus(Status.UNCONFIRMED.toString());
         final Booking updatedBooking = bookingRepository.save(booking);
         return ResponseEntity.ok(updatedBooking);
-    }
-
-    public LocalDate convertToLocalDate(Date dateToConvert) {
-        return dateToConvert.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-    }
-
-    public LocalDateTime convertToLocalDateTime(Date dateToConvert) {
-        return dateToConvert.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
     }
 }
