@@ -196,6 +196,7 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .time(LocalTime.parse("12:30"))
                 .customer(customer2)
                 .cleaner(cleaner2)
+                .priceList(priceList3)
                 .status(Status.APPROVED.toString())
                 .build();
 
@@ -206,6 +207,7 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .time(LocalTime.parse("15:00"))
                 .customer(customer1)
                 .cleaner(cleaner1)
+                .priceList(priceList3)
                 .status(Status.DONE.toString())
                 .build();
 
@@ -216,6 +218,7 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .time(LocalTime.parse("12:30"))
                 .customer(customer1)
                 .cleaner(cleaner2)
+                .priceList(priceList3)
                 .status(Status.DONE.toString())
                 .build();
 
