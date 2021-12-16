@@ -14,12 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.*;
-import java.util.Date;
 import java.util.List;
 
 import static java.lang.Long.parseLong;
@@ -117,11 +112,11 @@ public class BookingService {
         long newBookingTimeInSeconds = newBooking.toEpochSecond(ZoneOffset.UTC);
         long oldBookingTimeInSeconds = oldBooking.toEpochSecond(ZoneOffset.UTC);
 
-        //For hours in seconds
-        int difference = 60 * 60 * 4;
+        //Two hours in seconds
+        int difference = 60 * 60 * 2;
 
         log.info(String.valueOf(Math.abs(newBookingTimeInSeconds - oldBookingTimeInSeconds)));
-        //If that booking is within 4 hours of the other booking
+        //If that booking is within 2 hours of the other booking
         if (Math.abs(newBookingTimeInSeconds - oldBookingTimeInSeconds) < difference)
             return true;
         return false;
