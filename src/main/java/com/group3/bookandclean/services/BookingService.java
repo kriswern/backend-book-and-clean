@@ -139,9 +139,8 @@ public class BookingService {
             booking.setStatus(Status.DONE.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
-
-        } else if(booking.getStatus().equalsIgnoreCase(Status.DONE.toString())) {
-            booking.setStatus(Status.APPROVED.toString());
+        }else if(booking.getStatus().equalsIgnoreCase("confirmed")){
+            booking.setStatus(Status.BOOKED.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
         }
