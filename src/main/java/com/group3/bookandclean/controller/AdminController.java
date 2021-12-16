@@ -1,15 +1,10 @@
 package com.group3.bookandclean.controller;
 
 
-import com.group3.bookandclean.request.AddCleanerRequest;
-import com.group3.bookandclean.request.BookingRequest;
-import com.group3.bookandclean.entity.Booking;
-import com.group3.bookandclean.entity.Cleaner;
-import com.group3.bookandclean.entity.Customer;
-import com.group3.bookandclean.repository.BookingRepository;
-import com.group3.bookandclean.repository.CleanerRepository;
-import com.group3.bookandclean.repository.CustomerRepository;
-import com.group3.bookandclean.request.ByIdRequest;
+import com.group3.bookandclean.entity.*;
+import com.group3.bookandclean.repository.*;
+import com.group3.bookandclean.request.*;
+import com.group3.bookandclean.services.AdminService;
 import com.group3.bookandclean.services.BookingService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Request;
@@ -36,12 +31,17 @@ public class AdminController {
     @Autowired
     private CleanerRepository cleanerRepository;
     @Autowired
+    private PriceListRepository priceListRepository;
+    @Autowired
+    private BillsRepository billsRepository;
+    @Autowired
     BookingService bookingService;
 
+    @Autowired
+    AdminService adminService;
+
     @GetMapping("/customers")
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
-    }
+    public List<Customer> getAllCustomers() { return customerRepository.findAll(); }
 
     @GetMapping("/cleaners")
     public List<Cleaner> getAllCleaners() {
@@ -52,6 +52,11 @@ public class AdminController {
     public List<Booking> fetchBookings() {
         return bookingRepository.findAll();
     }
+
+    @GetMapping("/priceList")
+    public List<PriceList> fetchPriceList(){
+
+        return priceListRepository.findAll();}
 
     @PostMapping(value = "/addbooking")
     public boolean addBooking(@RequestBody BookingRequest request) throws ParseException {
@@ -79,6 +84,24 @@ public class AdminController {
     public String getCleanerName(@RequestParam String id) {
         Cleaner cleaner = cleanerRepository.getById(parseLong(id));
         return cleaner.getName();
+    }
+
+    @PostMapping ("/addbill")
+    public boolean addBill(@RequestBody BillRequest billRequest){
+        return adminService.addBill(billRequest);
+    }
+
+    @PutMapping ("/updatebookingbill")
+    public boolean updateBookingBill(@RequestBody List<Long> bookingIds){
+
+        for(Long id : bookingIds){
+            System.out.println(id);
+            bookingService.changePayedStatus(id);
+        }
+
+
+
+        return true;
     }
 
 }

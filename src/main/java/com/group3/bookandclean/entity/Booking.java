@@ -26,16 +26,24 @@ public class Booking {
     @Column(nullable = false)
     private String address;
 
+    @Column(nullable = false)
+    private boolean billed = false;
+
     @Temporal(TemporalType.DATE)
     private Date date;
 
     @Temporal(TemporalType.TIME)
     private Date time;
 
+    @OneToOne(targetEntity = PriceList.class)
+    @JoinColumn(name = "priceList")
+    private PriceList priceList;
+
     @ManyToOne(targetEntity = Customer.class,fetch = FetchType.LAZY)
     @JoinColumn(name = "customer", nullable = false)
     @JsonIgnore
     private Customer customer;
+
 
     @Column(name = "customer", insertable = false, updatable = false)
     private Long customerId;

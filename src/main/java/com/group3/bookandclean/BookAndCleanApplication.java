@@ -4,6 +4,7 @@ import com.group3.bookandclean.entity.*;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CleanerRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
+import com.group3.bookandclean.repository.PriceListRepository;
 import com.group3.bookandclean.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -34,7 +35,11 @@ public class BookAndCleanApplication implements CommandLineRunner {
     private CustomerRepository customerRepository;
 
     @Autowired
+    private PriceListRepository priceListRepository;
+    @Autowired
     private UserService userService;
+
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -96,23 +101,44 @@ public class BookAndCleanApplication implements CommandLineRunner {
         cleanerRepository.save(cleaner1);
         cleanerRepository.save(cleaner2);
 
+
+        PriceList priceList1 = PriceList.builder()
+                .type("floorCleaning")
+                .price(200.00)
+                .build();
+
+        PriceList priceList2 = PriceList.builder()
+                .type("houseCleaning")
+                .price(500.00)
+                .build();
+
+        PriceList priceList3 = PriceList.builder()
+                .type("mansionCleaning")
+                .price(1500.00)
+                .build();
+
+        priceListRepository.save(priceList1);
+        priceListRepository.save(priceList2);
+        priceListRepository.save(priceList3);
         Booking booking1 = Booking.builder()
                 .description(customer1.getName())
                 .address(customer1.getAddress())
                 .date(new SimpleDateFormat("yyyy-mm-dd").parse("2021-12-01"))
                 .time(new SimpleDateFormat("HH:mm").parse("16:30"))
                 .customer(customer1)
-                .status("unconfirmed")
+                .status("done")
+                .priceList(priceList1)
                 .build();
 
         Booking booking2 = Booking.builder()
-                .description(customer2.getName())
-                .address(customer2.getAddress())
+                .description(customer1.getName())
+                .address(customer1.getAddress())
                 .date(new SimpleDateFormat("yyyy-mm-dd").parse("2022-02-01"))
                 .time(new SimpleDateFormat("HH:mm").parse("17:25"))
-                .customer(customer2)
+                .customer(customer1)
                 .cleaner(cleaner1)
-                .status("Confirmed")
+                .status("done")
+                .priceList(priceList2)
                 .build();
 
         Booking booking3 = Booking.builder()
@@ -123,6 +149,7 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .customer(customer2)
                 .cleaner(cleaner2)
                 .status("Confirmed")
+                .priceList(priceList3)
                 .build();
 
 
@@ -134,6 +161,7 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .customer(customer2)
                 .cleaner(cleaner2)
                 .status("Confirmed")
+                .priceList(priceList1)
                 .build();
 
         bookingRepository.save(booking1);

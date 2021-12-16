@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Book;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import static java.lang.Long.parseLong;
 
@@ -75,5 +77,14 @@ public class BookingService {
         booking.setStatus("unconfirmed");
         final Booking updatedBooking = bookingRepository.save(booking);
         return ResponseEntity.ok(updatedBooking);
+    }
+
+    public boolean changePayedStatus (Long bookingIds) {
+
+        Booking booking = bookingRepository.getById(bookingIds);
+        booking.setBilled(true);
+        bookingRepository.save(booking);
+        return true;
+
     }
 }
