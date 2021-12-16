@@ -1,13 +1,13 @@
 package com.group3.bookandclean.controller;
 
 
-import com.group3.bookandclean.entity.Cleaner;
 import com.group3.bookandclean.entity.User;
 import com.group3.bookandclean.request.BookingRequest;
 import com.group3.bookandclean.entity.Booking;
 import com.group3.bookandclean.entity.Customer;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
+import com.group3.bookandclean.request.ByIdRequest;
 import com.group3.bookandclean.services.BookingService;
 import com.group3.bookandclean.services.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import static java.lang.Long.parseLong;
@@ -67,6 +66,12 @@ public class CustomerController {
         String id = String.valueOf(customer.getId());
 
         return id;
+
+    }
+
+    @PostMapping("/approve-cleaning")
+    public ResponseEntity<?> approveCleaning(@RequestBody ByIdRequest request) {
+        return bookingService.updateStatus(request.getId());
 
     }
 
