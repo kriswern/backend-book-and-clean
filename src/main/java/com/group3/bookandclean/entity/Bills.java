@@ -4,6 +4,7 @@ package com.group3.bookandclean.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Getter
@@ -26,5 +27,8 @@ public class Bills {
     @Column(nullable = false)
     private Double total;
 
+    @OneToMany (targetEntity = Booking.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "booking")
+    private List<Booking> bookings;
 
 }

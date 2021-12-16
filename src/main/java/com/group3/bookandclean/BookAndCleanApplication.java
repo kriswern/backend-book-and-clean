@@ -182,11 +182,21 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .priceList(priceList1)
                 .build();
 
+        Booking booking6 = Booking.builder()
+                .description(customer1.getName())
+                .address(customer1.getAddress())
+                .date(LocalDate.parse("2021-12-01"))
+                .time(LocalTime.parse("16:30"))
+                .customer(customer1)
+                .status(Status.APPROVED.toString())
+                .priceList(priceList3)
+                .build();
         bookingRepository.save(booking1);
         bookingRepository.save(booking2);
         bookingRepository.save(booking3);
         bookingRepository.save(booking4);
         bookingRepository.save(booking5);
+        bookingRepository.save(booking6);
 
 
     }
