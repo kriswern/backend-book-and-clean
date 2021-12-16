@@ -14,12 +14,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.net.PasswordAuthentication;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@SpringBootApplication ( exclude = {SecurityAutoConfiguration.class} )
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class BookAndCleanApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
@@ -41,8 +39,6 @@ public class BookAndCleanApplication implements CommandLineRunner {
     private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-
 
     @Override
     public void run(String... args) throws Exception {
@@ -185,18 +181,53 @@ public class BookAndCleanApplication implements CommandLineRunner {
         Booking booking6 = Booking.builder()
                 .description(customer1.getName())
                 .address(customer1.getAddress())
-                .date(LocalDate.parse("2021-12-01"))
-                .time(LocalTime.parse("16:30"))
+                .date(LocalDate.parse("2021-12-15"))
+                .time(LocalTime.parse("17:25"))
                 .customer(customer1)
+                .cleaner(cleaner1)
                 .status(Status.APPROVED.toString())
                 .priceList(priceList3)
                 .build();
+
+        Booking booking7 = Booking.builder()
+                .description(customer2.getName())
+                .address(customer2.getAddress())
+                .date(LocalDate.parse("2021-12-13"))
+                .time(LocalTime.parse("12:30"))
+                .customer(customer2)
+                .cleaner(cleaner2)
+                .status(Status.APPROVED.toString())
+                .build();
+
+        Booking booking8 = Booking.builder()
+                .description(customer1.getName())
+                .address(customer1.getAddress())
+                .date(LocalDate.parse("2021-12-15"))
+                .time(LocalTime.parse("15:00"))
+                .customer(customer1)
+                .cleaner(cleaner1)
+                .status(Status.DONE.toString())
+                .build();
+
+        Booking booking9 = Booking.builder()
+                .description(customer1.getName())
+                .address(customer1.getAddress())
+                .date(LocalDate.parse("2021-12-06"))
+                .time(LocalTime.parse("12:30"))
+                .customer(customer1)
+                .cleaner(cleaner2)
+                .status(Status.DONE.toString())
+                .build();
+
         bookingRepository.save(booking1);
         bookingRepository.save(booking2);
         bookingRepository.save(booking3);
         bookingRepository.save(booking4);
         bookingRepository.save(booking5);
         bookingRepository.save(booking6);
+        bookingRepository.save(booking7);
+        bookingRepository.save(booking8);
+        bookingRepository.save(booking9);
 
 
     }

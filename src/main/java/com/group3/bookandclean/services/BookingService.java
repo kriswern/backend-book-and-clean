@@ -17,7 +17,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.time.*;
-import java.util.Date;
 import java.util.List;
 
 import static java.lang.Long.parseLong;
@@ -121,11 +120,11 @@ public class BookingService {
         long newBookingTimeInSeconds = newBooking.toEpochSecond(ZoneOffset.UTC);
         long oldBookingTimeInSeconds = oldBooking.toEpochSecond(ZoneOffset.UTC);
 
-        //For hours in seconds
-        int difference = 60 * 60 * 4;
+        //Two hours in seconds
+        int difference = 60 * 60 * 2;
 
         log.info(String.valueOf(Math.abs(newBookingTimeInSeconds - oldBookingTimeInSeconds)));
-        //If that booking is within 4 hours of the other booking
+        //If that booking is within 2 hours of the other booking
         if (Math.abs(newBookingTimeInSeconds - oldBookingTimeInSeconds) < difference)
             return true;
         return false;
@@ -146,6 +145,10 @@ public class BookingService {
 
         if(booking.getStatus().equalsIgnoreCase("booked")){
             booking.setStatus(Status.DONE.toString());
+            final Booking updatedBooking = bookingRepository.save(booking);
+            return ResponseEntity.ok(updatedBooking);
+        }else if(booking.getStatus().equalsIgnoreCase("confirmed")){
+            booking.setStatus(Status.BOOKED.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
         }
