@@ -12,6 +12,7 @@ import com.group3.bookandclean.services.BookingService;
 import com.group3.bookandclean.services.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -40,8 +41,8 @@ public class CustomerController {
     CustomerRepository customerRepository;
 
     @PostMapping(value = "/addbooking")
-    public void addBooking(@RequestBody BookingRequest request) throws ParseException {
-        bookingService.registerBooking(request);
+    public ResponseEntity<?> addBooking(@RequestBody BookingRequest request) throws ParseException {
+        return bookingService.registerBooking(request);
     }
 
     @DeleteMapping(value = "/deletebookings{id}")

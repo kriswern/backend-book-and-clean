@@ -7,17 +7,15 @@ import com.group3.bookandclean.request.*;
 import com.group3.bookandclean.services.AdminService;
 import com.group3.bookandclean.services.BookingService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Map;
 
 import static java.lang.Long.parseLong;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/admin")
@@ -41,7 +39,9 @@ public class AdminController {
     AdminService adminService;
 
     @GetMapping("/customers")
-    public List<Customer> getAllCustomers() { return customerRepository.findAll(); }
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
+    }
 
     @GetMapping("/cleaners")
     public List<Cleaner> getAllCleaners() {
@@ -59,7 +59,7 @@ public class AdminController {
         return priceListRepository.findAll();}
 
     @PostMapping(value = "/addbooking")
-    public boolean addBooking(@RequestBody BookingRequest request) throws ParseException {
+    public ResponseEntity<?> addBooking(@RequestBody BookingRequest request) throws ParseException {
         return bookingService.registerBooking(request);
     }
 
@@ -69,15 +69,14 @@ public class AdminController {
     }
 
     @PutMapping("/assigncleaner")
-    public ResponseEntity<Booking> assignCleanerToBooking(@RequestBody AddCleanerRequest request)  {
-     return  bookingService.addCleaner(request);
-
+    public ResponseEntity<?> assignCleanerToBooking(@RequestBody AddCleanerRequest request) {
+        return bookingService.addCleaner(request);
     }
 
     @PutMapping("/removecleaner")
-    public ResponseEntity<Booking> removeCleanerFromBooking(@RequestBody ByIdRequest request)  {
+    public ResponseEntity<Booking> removeCleanerFromBooking(@RequestBody ByIdRequest request) {
 
-         return bookingService.removeCleaner(request.getId());
+        return bookingService.removeCleaner(request.getId());
     }
 
     @GetMapping("/cleanername{id}")

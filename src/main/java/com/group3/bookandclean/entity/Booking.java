@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Getter
@@ -26,11 +28,11 @@ public class Booking {
     @Column(nullable = false)
     private String address;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    @Column
+    private LocalDate date;
 
-    @Temporal(TemporalType.TIME)
-    private Date time;
+    @Column
+    private LocalTime time;
 
     @OneToOne(targetEntity = PriceList.class)
     @JoinColumn(name = "priceList")

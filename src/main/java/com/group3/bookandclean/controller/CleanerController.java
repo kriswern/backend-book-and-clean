@@ -7,9 +7,13 @@ import com.group3.bookandclean.entity.User;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CleanerRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
+import com.group3.bookandclean.request.BookingRequest;
+import com.group3.bookandclean.request.ByIdRequest;
+import com.group3.bookandclean.services.BookingService;
 import com.group3.bookandclean.services.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +34,8 @@ public class CleanerController {
     private CleanerRepository cleanerRepository;
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    BookingService bookingService;
 
 
 
@@ -40,6 +46,11 @@ public class CleanerController {
         Long id = cleaner.getId();
         log.info(String.valueOf(id));
         return bookingRepository.findBookingByCleanerId(id);
+    }
+
+    @PostMapping("bookings/update")
+    public ResponseEntity<?> updateStatus(@RequestBody ByIdRequest request) {
+        return bookingService.updateStatus(request.getId());
     }
 
 

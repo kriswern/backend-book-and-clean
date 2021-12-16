@@ -4,6 +4,7 @@ import com.group3.bookandclean.entity.*;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CleanerRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
+import com.group3.bookandclean.services.Status;
 import com.group3.bookandclean.repository.PriceListRepository;
 import com.group3.bookandclean.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.net.PasswordAuthentication;
 import java.text.SimpleDateFormat;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @SpringBootApplication ( exclude = {SecurityAutoConfiguration.class} )
 public class BookAndCleanApplication implements CommandLineRunner {
@@ -38,6 +39,8 @@ public class BookAndCleanApplication implements CommandLineRunner {
     private PriceListRepository priceListRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
 
@@ -45,41 +48,46 @@ public class BookAndCleanApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         User user1 = User.builder()
-                .email("email")
-                .password("password")
+                .email("customer")
+                .password(passwordEncoder.encode("customer"))
                 .type("customer")
                 .build();
 
         User user2 = User.builder()
-                .email("email2")
-                .password("password2")
-                .type("cleaner")
+                .email("customer2")
+                .password(passwordEncoder.encode("customer2"))
+                .type("customer")
                 .build();
 
         User user3 = User.builder()
-                .email("email3")
-                .password("password3")
+                .email("admin")
+                .password(passwordEncoder.encode("admin"))
                 .type("admin")
                 .build();
 
+        userService.saveUser(user3);
+
         User user4 = User.builder()
-                .email("email4")
-                .password("password4")
+                .email("cleaner")
+                .password(passwordEncoder.encode("cleaner"))
                 .type("cleaner")
                 .build();
 
-
-
+        User user5 = User.builder()
+                .email("cleaner2")
+                .password(passwordEncoder.encode("cleaner2"))
+                .type("cleaner")
+                .build();
 
         Customer customer1 = Customer.builder()
-                .name("Oskar Andersson")
-                .address("Åhusgatan 3")
+                .name("Signe Student")
+                .address("Karlskronaplan 3")
                 .user(user1)
                 .build();
 
         Customer customer2 = Customer.builder()
                 .name("Kenneth Karlsson")
-                .address("Afrika")
+                .address("von Rosens väg 15")
                 .user(user2)
                 .build();
 
@@ -87,15 +95,15 @@ public class BookAndCleanApplication implements CommandLineRunner {
         customerRepository.save(customer2);
 
         Cleaner cleaner1 = Cleaner.builder()
-                .name("Tina Törner")
-                .address("Sjöbo 1")
-                .user(user3)
+                .name("Marcus Karlsson")
+                .address("Sjöbo byväg 1")
+                .user(user4)
                 .build();
 
         Cleaner cleaner2 = Cleaner.builder()
-                .name("Silja Line")
+                .name("Caren Johnson")
                 .address("Östersjön 43a")
-                .user(user4)
+                .user(user5)
                 .build();
 
         cleanerRepository.save(cleaner1);
@@ -123,32 +131,32 @@ public class BookAndCleanApplication implements CommandLineRunner {
         Booking booking1 = Booking.builder()
                 .description(customer1.getName())
                 .address(customer1.getAddress())
-                .date(new SimpleDateFormat("yyyy-mm-dd").parse("2021-12-01"))
-                .time(new SimpleDateFormat("HH:mm").parse("16:30"))
+                .date(LocalDate.parse("2021-12-01"))
+                .time(LocalTime.parse("16:30"))
                 .customer(customer1)
-                .status("Approved")
+                .status(Status.APPROVED.toString())
                 .priceList(priceList1)
                 .build();
 
         Booking booking2 = Booking.builder()
-                .description(customer1.getName())
-                .address(customer1.getAddress())
-                .date(new SimpleDateFormat("yyyy-mm-dd").parse("2022-02-01"))
-                .time(new SimpleDateFormat("HH:mm").parse("17:25"))
-                .customer(customer1)
+                .description(customer2.getName())
+                .address(customer2.getAddress())
+                .date(LocalDate.parse("2022-07-01"))
+                .time(LocalTime.parse("17:25"))
+                .customer(customer2)
                 .cleaner(cleaner1)
-                .status("Approved")
+                .status(Status.CONFIRMED.toString())
                 .priceList(priceList2)
                 .build();
 
         Booking booking3 = Booking.builder()
                 .description(customer2.getName())
                 .address(customer2.getAddress())
-                .date(new SimpleDateFormat("yyyy-mm-dd").parse("2023-05-14"))
-                .time(new SimpleDateFormat("HH:mm").parse("07:00"))
+                .date(LocalDate.parse("2023-05-14"))
+                .time(LocalTime.parse("07:00"))
                 .customer(customer2)
                 .cleaner(cleaner2)
-                .status("Confirmed")
+                .status(Status.CONFIRMED.toString())
                 .priceList(priceList3)
                 .build();
 
@@ -156,11 +164,21 @@ public class BookAndCleanApplication implements CommandLineRunner {
         Booking booking4 = Booking.builder()
                 .description(customer2.getName())
                 .address(customer2.getAddress())
-                .date(new SimpleDateFormat("yyyy-mm-dd").parse("2022-02-01"))
-                .time(new SimpleDateFormat("HH:mm").parse("17:25"))
+                .date(LocalDate.parse("2022-02-01"))
+                .time(LocalTime.parse("17:25"))
                 .customer(customer2)
                 .cleaner(cleaner2)
-                .status("Confirmed")
+                .status(Status.CONFIRMED.toString())
+                .priceList(priceList1)
+                .build();
+
+        Booking booking5 = Booking.builder()
+                .description(customer2.getName())
+                .address(customer2.getAddress())
+                .date(LocalDate.parse("2021-12-01"))
+                .time(LocalTime.parse("17:25"))
+                .customer(customer2)
+                .status(Status.UNCONFIRMED.toString())
                 .priceList(priceList1)
                 .build();
 
@@ -168,6 +186,7 @@ public class BookAndCleanApplication implements CommandLineRunner {
         bookingRepository.save(booking2);
         bookingRepository.save(booking3);
         bookingRepository.save(booking4);
+        bookingRepository.save(booking5);
 
 
     }
