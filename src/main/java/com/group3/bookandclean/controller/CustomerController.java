@@ -8,6 +8,7 @@ import com.group3.bookandclean.entity.Customer;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
 import com.group3.bookandclean.request.ByIdRequest;
+import com.group3.bookandclean.request.RejectCleaningRequest;
 import com.group3.bookandclean.services.BookingService;
 import com.group3.bookandclean.services.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -72,6 +73,12 @@ public class CustomerController {
     @PostMapping("/approve-cleaning")
     public ResponseEntity<?> approveCleaning(@RequestBody ByIdRequest request) {
         return bookingService.updateStatus(request.getId());
+
+    }
+
+    @PostMapping("/reject-cleaning")
+    public ResponseEntity<?> rejectCleaning(@RequestBody RejectCleaningRequest request) {
+        return bookingService.rejectCleaning(request);
 
     }
 

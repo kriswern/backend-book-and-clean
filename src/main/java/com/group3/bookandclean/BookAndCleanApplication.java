@@ -107,17 +107,17 @@ public class BookAndCleanApplication implements CommandLineRunner {
 
 
         PriceList priceList1 = PriceList.builder()
-                .type("floorCleaning")
+                .type("Floor Cleaning")
                 .price(200.00)
                 .build();
 
         PriceList priceList2 = PriceList.builder()
-                .type("houseCleaning")
+                .type("House Cleaning")
                 .price(500.00)
                 .build();
 
         PriceList priceList3 = PriceList.builder()
-                .type("mansionCleaning")
+                .type("Mansion Cleaning")
                 .price(1500.00)
                 .build();
 
@@ -130,6 +130,7 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .date(LocalDate.parse("2021-12-01"))
                 .time(LocalTime.parse("16:30"))
                 .customer(customer1)
+                .cleaner(cleaner2)
                 .status(Status.APPROVED.toString())
                 .priceList(priceList1)
                 .build();

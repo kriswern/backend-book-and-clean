@@ -1,7 +1,7 @@
 package com.group3.bookandclean.services;
 
 public enum Status {
-    UNCONFIRMED("Unconfirmed"), CONFIRMED("Confirmed"), BOOKED("Booked"), IN_PROGRESS("In progress"), DONE("Done"), APPROVED("Approved"), BILLED("Billed"), PAYED("Payed");
+    UNCONFIRMED("Unconfirmed"), CONFIRMED("Confirmed"), BOOKED("Booked"), IN_PROGRESS("In progress"), DONE("Done"), APPROVED("Approved"), REJECTED("Rejected"), BILLED("Billed"), PAYED("Payed");
 
     private String msg;
 

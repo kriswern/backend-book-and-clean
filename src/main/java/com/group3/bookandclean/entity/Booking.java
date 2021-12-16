@@ -57,4 +57,7 @@ public class Booking {
 
     @Column(nullable = false)
     private String status;
+
+    @Column()
+    private String feedback;
 }

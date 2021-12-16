@@ -1,23 +1,26 @@
 package com.group3.bookandclean.services;
 
+
 import com.group3.bookandclean.entity.*;
 import com.group3.bookandclean.repository.*;
+
+import com.group3.bookandclean.entity.Booking;
+import com.group3.bookandclean.entity.Cleaner;
+import com.group3.bookandclean.entity.Customer;
+import com.group3.bookandclean.repository.BookingRepository;
+import com.group3.bookandclean.repository.CleanerRepository;
+import com.group3.bookandclean.repository.CustomerRepository;
 import com.group3.bookandclean.request.AddCleanerRequest;
 import com.group3.bookandclean.request.BookingRequest;
+import com.group3.bookandclean.request.RejectCleaningRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.time.*;
-import java.util.List;
 
 import static java.lang.Long.parseLong;
 
@@ -151,6 +154,10 @@ public class BookingService {
             booking.setStatus(Status.BOOKED.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
+        } else if(booking.getStatus().equalsIgnoreCase(Status.DONE.toString())) {
+            booking.setStatus(Status.APPROVED.toString());
+            final Booking updatedBooking = bookingRepository.save(booking);
+            return ResponseEntity.ok(updatedBooking);
         }
         return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(null);
     }
@@ -163,4 +170,17 @@ public class BookingService {
         return true;
 
     }
+
+    public ResponseEntity<Booking> rejectCleaning(RejectCleaningRequest request) {
+        Booking booking = bookingRepository.getById(parseLong(request.getBookingId()));
+        booking.setFeedback(request.getFeedback());
+
+        booking.setStatus(Status.REJECTED.toString());
+
+        final Booking updatedBooking = bookingRepository.save(booking);
+        return ResponseEntity.ok(updatedBooking);
+
+    }
+
+
 }
