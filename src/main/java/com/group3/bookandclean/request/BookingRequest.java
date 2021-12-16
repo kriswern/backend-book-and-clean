@@ -9,6 +9,7 @@ public class BookingRequest {
     String address;
     String date;
     String time;
+    String priceListId;
 
     String customerId;
 }

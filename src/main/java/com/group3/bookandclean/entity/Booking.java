@@ -26,9 +26,6 @@ public class Booking {
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
-    private boolean billed = false;
-
     @Temporal(TemporalType.DATE)
     private Date date;
 

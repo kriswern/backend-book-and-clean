@@ -126,7 +126,7 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .date(new SimpleDateFormat("yyyy-mm-dd").parse("2021-12-01"))
                 .time(new SimpleDateFormat("HH:mm").parse("16:30"))
                 .customer(customer1)
-                .status("done")
+                .status("Approved")
                 .priceList(priceList1)
                 .build();
 
@@ -137,7 +137,7 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .time(new SimpleDateFormat("HH:mm").parse("17:25"))
                 .customer(customer1)
                 .cleaner(cleaner1)
-                .status("done")
+                .status("Approved")
                 .priceList(priceList2)
                 .build();
 

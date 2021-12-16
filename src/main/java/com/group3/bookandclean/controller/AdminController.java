@@ -92,15 +92,11 @@ public class AdminController {
     }
 
     @PutMapping ("/updatebookingbill")
-    public boolean updateBookingBill(@RequestBody List<Long> bookingIds){
+    public boolean updateBookingStatus(@RequestBody List<Long> bookingIds){
 
         for(Long id : bookingIds){
-            System.out.println(id);
-            bookingService.changePayedStatus(id);
+            bookingService.changeStatusBilled(id);
         }
-
-
-
         return true;
     }
 

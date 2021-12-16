@@ -1,11 +1,7 @@
 package com.group3.bookandclean.services;
 
-import com.group3.bookandclean.entity.Booking;
-import com.group3.bookandclean.entity.Cleaner;
-import com.group3.bookandclean.entity.Customer;
-import com.group3.bookandclean.repository.BookingRepository;
-import com.group3.bookandclean.repository.CleanerRepository;
-import com.group3.bookandclean.repository.CustomerRepository;
+import com.group3.bookandclean.entity.*;
+import com.group3.bookandclean.repository.*;
 import com.group3.bookandclean.request.AddCleanerRequest;
 import com.group3.bookandclean.request.BookingRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +27,20 @@ public class BookingService {
     @Autowired
     CleanerRepository cleanerRepository;
 
+    @Autowired
+    PriceListRepository priceListRepository;
+
     public boolean registerBooking(BookingRequest request) throws ParseException {
         Long userId = parseLong(request.getCustomerId());
+        Long priceListId = parseLong(request.getPriceListId());
         Customer customer = customerRepository.getById(userId);
-
+        PriceList priceList = priceListRepository.getById(priceListId);
         Booking booking = Booking.builder()
                 .description(request.getName())
                 .address(request.getAddress())
                 .date(new SimpleDateFormat("yyyy-mm-dd").parse(request.getDate()))
                 .time(new SimpleDateFormat("HH:mm").parse(request.getTime()))
+                .priceList(priceList)
                 .customer(customer)
                 .status("unconfirmed")
                 .build();
@@ -79,10 +80,10 @@ public class BookingService {
         return ResponseEntity.ok(updatedBooking);
     }
 
-    public boolean changePayedStatus (Long bookingIds) {
+    public boolean changeStatusBilled (Long bookingIds) {
 
         Booking booking = bookingRepository.getById(bookingIds);
-        booking.setBilled(true);
+        booking.setStatus("Billed");
         bookingRepository.save(booking);
         return true;
 
