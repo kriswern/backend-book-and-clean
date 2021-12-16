@@ -135,4 +135,16 @@ public class BookingService {
         final Booking updatedBooking = bookingRepository.save(booking);
         return ResponseEntity.ok(updatedBooking);
     }
+
+
+    public ResponseEntity<Booking> updateStatus(String id) {
+        Booking booking = bookingRepository.getById(parseLong(id));
+
+        if(booking.getStatus().equalsIgnoreCase("booked")){
+            booking.setStatus(Status.DONE.toString());
+            final Booking updatedBooking = bookingRepository.save(booking);
+            return ResponseEntity.ok(updatedBooking);
+        }
+        return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(null);
+    }
 }
