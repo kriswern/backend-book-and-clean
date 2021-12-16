@@ -1,11 +1,7 @@
 package com.group3.bookandclean.services;
 
-import com.group3.bookandclean.entity.Booking;
-import com.group3.bookandclean.entity.Cleaner;
-import com.group3.bookandclean.entity.Customer;
-import com.group3.bookandclean.repository.BookingRepository;
-import com.group3.bookandclean.repository.CleanerRepository;
-import com.group3.bookandclean.repository.CustomerRepository;
+import com.group3.bookandclean.entity.*;
+import com.group3.bookandclean.repository.*;
 import com.group3.bookandclean.request.AddCleanerRequest;
 import com.group3.bookandclean.request.BookingRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Book;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 import java.time.*;
 import java.util.List;
 
@@ -32,12 +34,17 @@ public class BookingService {
     @Autowired
     CleanerRepository cleanerRepository;
 
+    @Autowired
+    PriceListRepository priceListRepository;
+
     public ResponseEntity<?> registerBooking(BookingRequest request) {
 
         try {
 
             Long userId = parseLong(request.getCustomerId());
+            Long priceListId = parseLong(request.getPriceListId());
             Customer customer = customerRepository.getById(userId);
+            PriceList priceList = priceListRepository.getById(priceListId);
             LocalDate date = LocalDate.parse(request.getDate());
             LocalTime time = LocalTime.parse(request.getTime());
 
@@ -58,6 +65,7 @@ public class BookingService {
                     .address(request.getAddress())
                     .date(date)
                     .time(time)
+                    .priceList(priceList)
                     .customer(customer)
                     .status(Status.UNCONFIRMED.toString())
                     .build();
@@ -145,5 +153,14 @@ public class BookingService {
             return ResponseEntity.ok(updatedBooking);
         }
         return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(null);
+    }
+
+    public boolean changeStatusBilled (Long bookingIds) {
+
+        Booking booking = bookingRepository.getById(bookingIds);
+        booking.setStatus("Billed");
+        bookingRepository.save(booking);
+        return true;
+
     }
 }

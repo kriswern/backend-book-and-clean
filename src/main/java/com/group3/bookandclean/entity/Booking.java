@@ -34,10 +34,15 @@ public class Booking {
     @Column
     private LocalTime time;
 
+    @OneToOne(targetEntity = PriceList.class)
+    @JoinColumn(name = "priceList")
+    private PriceList priceList;
+
     @ManyToOne(targetEntity = Customer.class,fetch = FetchType.LAZY)
     @JoinColumn(name = "customer", nullable = false)
     @JsonIgnore
     private Customer customer;
+
 
     @Column(name = "customer", insertable = false, updatable = false)
     private Long customerId;
