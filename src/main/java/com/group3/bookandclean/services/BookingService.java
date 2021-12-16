@@ -144,6 +144,10 @@ public class BookingService {
             booking.setStatus(Status.DONE.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
+        }else if(booking.getStatus().equalsIgnoreCase("confirmed")){
+            booking.setStatus(Status.BOOKED.toString());
+            final Booking updatedBooking = bookingRepository.save(booking);
+            return ResponseEntity.ok(updatedBooking);
         }
         return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(null);
     }
