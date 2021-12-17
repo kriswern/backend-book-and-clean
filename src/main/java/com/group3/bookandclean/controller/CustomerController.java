@@ -61,8 +61,9 @@ public class CustomerController {
         User user = userService.getUser(name);
         Customer customer = customerRepository.findCustomerByUser(user);
         Long id = customer.getId();
-        log.info(String.valueOf(id));
-        return bookingRepository.findBookingByCustomerId(id);
+        List<Booking> bookings = bookingRepository.findBookingByCustomerId(id);
+
+        return bookingService.setInProgress(bookings);
     }
 
     @GetMapping("/customerid")
