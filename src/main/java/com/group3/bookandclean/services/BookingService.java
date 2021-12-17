@@ -148,11 +148,11 @@ public class BookingService {
     public ResponseEntity<Booking> updateStatus(String id) {
         Booking booking = bookingRepository.getById(parseLong(id));
 
-        if(booking.getStatus().equalsIgnoreCase("booked")){
+        if(booking.getStatus().equalsIgnoreCase(Status.IN_PROGRESS.toString())){
             booking.setStatus(Status.DONE.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
-        }else if(booking.getStatus().equalsIgnoreCase("confirmed")){
+        }else if(booking.getStatus().equalsIgnoreCase(Status.CONFIRMED.toString())){
             booking.setStatus(Status.BOOKED.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
