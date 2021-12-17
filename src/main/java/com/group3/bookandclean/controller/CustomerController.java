@@ -1,7 +1,9 @@
 package com.group3.bookandclean.controller;
 
 
+import com.group3.bookandclean.entity.PriceList;
 import com.group3.bookandclean.entity.User;
+import com.group3.bookandclean.repository.PriceListRepository;
 import com.group3.bookandclean.request.BookingRequest;
 import com.group3.bookandclean.entity.Booking;
 import com.group3.bookandclean.entity.Customer;
@@ -40,6 +42,9 @@ public class CustomerController {
     @Autowired
     CustomerRepository customerRepository;
 
+    @Autowired
+    PriceListRepository priceListRepository;
+
     @PostMapping(value = "/addbooking")
     public ResponseEntity<?> addBooking(@RequestBody BookingRequest request) throws ParseException {
         return bookingService.registerBooking(request);
@@ -56,8 +61,9 @@ public class CustomerController {
         User user = userService.getUser(name);
         Customer customer = customerRepository.findCustomerByUser(user);
         Long id = customer.getId();
-        log.info(String.valueOf(id));
-        return bookingRepository.findBookingByCustomerId(id);
+        List<Booking> bookings = bookingRepository.findBookingByCustomerId(id);
+
+        return bookingService.setInProgress(bookings);
     }
 
     @GetMapping("/customerid")
@@ -93,6 +99,11 @@ public class CustomerController {
         return null;
     }
 
+    @GetMapping("/priceList")
+    public List<PriceList> fetchPriceList() {
+
+        return priceListRepository.findAll();
+    }
 }
 
 

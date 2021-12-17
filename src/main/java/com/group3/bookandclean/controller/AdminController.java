@@ -50,12 +50,15 @@ public class AdminController {
 
     @GetMapping("/bookings")
     public List<Booking> fetchBookings() {
-        return bookingRepository.findAll();
+        List<Booking> bookings = bookingRepository.findAll();
+
+        List<Booking> newBookings = bookingService.setInProgress(bookings);
+
+        return newBookings;
     }
 
     @GetMapping("/priceList")
     public List<PriceList> fetchPriceList(){
-
         return priceListRepository.findAll();}
 
     @PostMapping(value = "/addbooking")

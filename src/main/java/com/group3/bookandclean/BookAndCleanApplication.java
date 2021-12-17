@@ -198,7 +198,7 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .customer(customer2)
                 .cleaner(cleaner2)
                 .priceList(priceList3)
-                .status(Status.APPROVED.toString())
+                .status(Status.BOOKED.toString())
                 .build();
 
         Booking booking8 = Booking.builder()

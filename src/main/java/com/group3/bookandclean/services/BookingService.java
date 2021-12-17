@@ -19,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.*;
 
@@ -146,11 +148,11 @@ public class BookingService {
     public ResponseEntity<Booking> updateStatus(String id) {
         Booking booking = bookingRepository.getById(parseLong(id));
 
-        if(booking.getStatus().equalsIgnoreCase("booked")){
+        if(booking.getStatus().equalsIgnoreCase(Status.IN_PROGRESS.toString())){
             booking.setStatus(Status.DONE.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
-        }else if(booking.getStatus().equalsIgnoreCase("confirmed")){
+        }else if(booking.getStatus().equalsIgnoreCase(Status.CONFIRMED.toString())){
             booking.setStatus(Status.BOOKED.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
@@ -183,4 +185,27 @@ public class BookingService {
     }
 
 
+    public List<Booking> setInProgress(List<Booking> bookings) {
+
+        List<Booking> newBookings = new ArrayList<>();
+
+        for(Booking booking : bookings) {
+            if(booking.getStatus().equalsIgnoreCase(Status.BOOKED.toString())) {
+                LocalDateTime booked = LocalDateTime.of(booking.getDate(), booking.getTime());
+
+                long nowNumber = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+                long bookedNumber = booked.toEpochSecond(ZoneOffset.UTC);
+
+                log.info(String.valueOf(bookedNumber));
+                log.info(String.valueOf(nowNumber));
+
+                if(bookedNumber < nowNumber) {
+                    booking.setStatus(Status.IN_PROGRESS.toString());
+                    bookingRepository.save(booking);
+                }
+            }
+            newBookings.add(booking);
+        }
+        return newBookings;
+    }
 }
