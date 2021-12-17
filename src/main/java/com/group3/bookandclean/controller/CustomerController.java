@@ -82,11 +82,23 @@ public class CustomerController {
 
     }
 
+    @GetMapping("/email")
+    public Customer getCustomerById(@RequestParam String email) {
+        User user = userService.getUser(email);
+        if (user.getType().equalsIgnoreCase("customer")) {
+            Customer customer = customerRepository.findCustomerByUser(user);
+            return customer;
 
-
-
-
-
-
+        }
+        return null;
+    }
 
 }
+
+
+
+
+
+
+
+

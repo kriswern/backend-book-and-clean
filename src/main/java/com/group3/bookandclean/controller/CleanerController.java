@@ -3,6 +3,7 @@ package com.group3.bookandclean.controller;
 
 import com.group3.bookandclean.entity.Booking;
 import com.group3.bookandclean.entity.Cleaner;
+import com.group3.bookandclean.entity.Customer;
 import com.group3.bookandclean.entity.User;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CleanerRepository;
@@ -26,18 +27,16 @@ import static java.lang.Long.parseLong;
 @CrossOrigin(origins = "http://localhost:3000")
 public class CleanerController {
 
-
     @Autowired
     private BookingRepository bookingRepository;
 
     @Autowired
     private CleanerRepository cleanerRepository;
+
     @Autowired
     private UserServiceImpl userService;
     @Autowired
     BookingService bookingService;
-
-
 
     @GetMapping("/bookings")
     public List<Booking> fetchCleanerBookings(@RequestParam String name) {
@@ -53,7 +52,14 @@ public class CleanerController {
         return bookingService.updateStatus(request.getId());
     }
 
-
-
+    @GetMapping("/email")
+    public Cleaner getCleanerById(@RequestParam String email) {
+        User user = userService.getUser(email);
+        if (user.getType().equalsIgnoreCase("cleaner")) {
+            Cleaner cleaner = cleanerRepository.findCleanerByUser(user);
+            return cleaner;
+        }
+        return null;
+    }
 
 }
