@@ -55,7 +55,6 @@ public class AdminController {
 
     @GetMapping("/priceList")
     public List<PriceList> fetchPriceList(){
-
         return priceListRepository.findAll();}
 
     @PostMapping(value = "/addbooking")
