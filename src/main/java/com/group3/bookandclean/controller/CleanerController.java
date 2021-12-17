@@ -44,8 +44,9 @@ public class CleanerController {
         User user = userService.getUser(name);
         Cleaner cleaner = cleanerRepository.findCleanerByUser(user);
         Long id = cleaner.getId();
-        log.info(String.valueOf(id));
-        return bookingRepository.findBookingByCleanerId(id);
+        List<Booking> bookings = bookingRepository.findBookingByCleanerId(id);
+
+        return bookingService.setInProgress(bookings);
     }
 
     @PostMapping("bookings/update")
