@@ -88,16 +88,28 @@ public class CustomerController {
 
     }
 
+    @GetMapping("/email")
+    public Customer getCustomerById(@RequestParam String email) {
+        User user = userService.getUser(email);
+        if (user.getType().equalsIgnoreCase("customer")) {
+            Customer customer = customerRepository.findCustomerByUser(user);
+            return customer;
+
+        }
+        return null;
+    }
+
     @GetMapping("/priceList")
-    public List<PriceList> fetchPriceList(){
+    public List<PriceList> fetchPriceList() {
 
-        return priceListRepository.findAll();}
-
-
-
-
-
-
-
-
+        return priceListRepository.findAll();
+    }
 }
+
+
+
+
+
+
+
+
