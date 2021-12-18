@@ -196,6 +196,8 @@ public class BookingService {
                     booking.setStatus(Status.IN_PROGRESS.toString());
                     bookingRepository.save(booking);
                     newBookings.add(booking);
+                } else {
+                    newBookings.add(booking);
                 }
 
             } else if (status.equals(Status.UNCONFIRMED.toString()) || status.equals(Status.CONFIRMED.toString())) {
