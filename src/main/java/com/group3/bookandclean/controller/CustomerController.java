@@ -63,7 +63,7 @@ public class CustomerController {
         Long id = customer.getId();
         List<Booking> bookings = bookingRepository.findBookingByCustomerId(id);
 
-        return bookingService.setInProgress(bookings);
+        return bookingService.setInProgressAndFilter(bookings);
     }
 
     @GetMapping("/customerid")

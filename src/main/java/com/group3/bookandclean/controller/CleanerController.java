@@ -45,7 +45,7 @@ public class CleanerController {
         Long id = cleaner.getId();
         List<Booking> bookings = bookingRepository.findBookingByCleanerId(id);
 
-        return bookingService.setInProgress(bookings);
+        return bookingService.setInProgressAndFilter(bookings);
     }
 
     @PostMapping("bookings/update")

@@ -148,15 +148,15 @@ public class BookingService {
     public ResponseEntity<Booking> updateStatus(String id) {
         Booking booking = bookingRepository.getById(parseLong(id));
 
-        if(booking.getStatus().equalsIgnoreCase(Status.IN_PROGRESS.toString())){
+        if (booking.getStatus().equalsIgnoreCase(Status.IN_PROGRESS.toString())) {
             booking.setStatus(Status.DONE.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
-        }else if(booking.getStatus().equalsIgnoreCase(Status.CONFIRMED.toString())){
+        } else if (booking.getStatus().equalsIgnoreCase(Status.CONFIRMED.toString())) {
             booking.setStatus(Status.BOOKED.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
-        } else if(booking.getStatus().equalsIgnoreCase(Status.DONE.toString())) {
+        } else if (booking.getStatus().equalsIgnoreCase(Status.DONE.toString())) {
             booking.setStatus(Status.APPROVED.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
@@ -164,10 +164,10 @@ public class BookingService {
         return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(null);
     }
 
-    public boolean changeStatusBilled (Long bookingIds) {
+    public boolean changeStatusBilled(Long bookingIds) {
 
         Booking booking = bookingRepository.getById(bookingIds);
-        booking.setStatus("Billed");
+        booking.setStatus(Status.BILLED.toString());
         bookingRepository.save(booking);
         return true;
 
@@ -185,27 +185,37 @@ public class BookingService {
     }
 
 
-    public List<Booking> setInProgress(List<Booking> bookings) {
-
+    public List<Booking> setInProgressAndFilter(List<Booking> bookings) {
         List<Booking> newBookings = new ArrayList<>();
 
-        for(Booking booking : bookings) {
-            if(booking.getStatus().equalsIgnoreCase(Status.BOOKED.toString())) {
-                LocalDateTime booked = LocalDateTime.of(booking.getDate(), booking.getTime());
+        for (Booking booking : bookings) {
+            String status = booking.getStatus();
 
-                long nowNumber = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
-                long bookedNumber = booked.toEpochSecond(ZoneOffset.UTC);
-
-                log.info(String.valueOf(bookedNumber));
-                log.info(String.valueOf(nowNumber));
-
-                if(bookedNumber < nowNumber) {
+            if (status.equals(Status.BOOKED.toString())) {
+                if (hasDatePassed(booking)) {
                     booking.setStatus(Status.IN_PROGRESS.toString());
                     bookingRepository.save(booking);
+                    newBookings.add(booking);
                 }
+
+            } else if (status.equals(Status.UNCONFIRMED.toString()) || status.equals(Status.CONFIRMED.toString())) {
+                if (!hasDatePassed(booking)) {
+                    newBookings.add(booking);
+                }
+
+            } else {
+                newBookings.add(booking);
             }
-            newBookings.add(booking);
         }
         return newBookings;
+    }
+
+    private Boolean hasDatePassed(Booking booking) {
+        LocalDateTime booked = LocalDateTime.of(booking.getDate(), booking.getTime());
+
+        long nowNumber = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+        long bookedNumber = booked.toEpochSecond(ZoneOffset.UTC);
+
+        return bookedNumber < nowNumber;
     }
 }

@@ -52,7 +52,7 @@ public class AdminController {
     public List<Booking> fetchBookings() {
         List<Booking> bookings = bookingRepository.findAll();
 
-        List<Booking> newBookings = bookingService.setInProgress(bookings);
+        List<Booking> newBookings = bookingService.setInProgressAndFilter(bookings);
 
         return newBookings;
     }
