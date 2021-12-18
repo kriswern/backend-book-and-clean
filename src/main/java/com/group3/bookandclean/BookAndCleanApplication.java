@@ -223,6 +223,17 @@ public class BookAndCleanApplication implements CommandLineRunner {
                 .status(Status.DONE.toString())
                 .build();
 
+        Booking booking10 = Booking.builder()
+                .description(customer1.getName())
+                .address(customer1.getAddress())
+                .date(LocalDate.parse("2021-12-24"))
+                .time(LocalTime.parse("15:00"))
+                .customer(customer2)
+                .cleaner(cleaner1)
+                .priceList(priceList2)
+                .status(Status.BOOKED.toString())
+                .build();
+
         bookingRepository.save(booking1);
         bookingRepository.save(booking2);
         bookingRepository.save(booking3);
@@ -232,7 +243,7 @@ public class BookAndCleanApplication implements CommandLineRunner {
         bookingRepository.save(booking7);
         bookingRepository.save(booking8);
         bookingRepository.save(booking9);
-
+        bookingRepository.save(booking10);
 
     }
 }
