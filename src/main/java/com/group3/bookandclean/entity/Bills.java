@@ -20,7 +20,7 @@ public class Bills {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne(targetEntity = PriceList.class)
+    @OneToOne(targetEntity = Customer.class)
     @JoinColumn(name = "customer")
     private Customer customer;
 
@@ -28,7 +28,7 @@ public class Bills {
     private Double total;
 
     @OneToMany (targetEntity = Booking.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "booking")
+    @JoinColumn(name = "bookings")
     private List<Booking> bookings;
 
 }

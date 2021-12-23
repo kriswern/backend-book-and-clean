@@ -148,16 +148,20 @@ public class BookingService {
     public ResponseEntity<Booking> updateStatus(String id) {
         Booking booking = bookingRepository.getById(parseLong(id));
 
-        if (booking.getStatus().equalsIgnoreCase(Status.IN_PROGRESS.toString())) {
+        if (booking.getStatus().equals(Status.IN_PROGRESS.toString())) {
             booking.setStatus(Status.DONE.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
-        } else if (booking.getStatus().equalsIgnoreCase(Status.CONFIRMED.toString())) {
+        } else if (booking.getStatus().equals(Status.CONFIRMED.toString())) {
             booking.setStatus(Status.BOOKED.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
-        } else if (booking.getStatus().equalsIgnoreCase(Status.DONE.toString())) {
+        } else if (booking.getStatus().equals(Status.DONE.toString())) {
             booking.setStatus(Status.APPROVED.toString());
+            final Booking updatedBooking = bookingRepository.save(booking);
+            return ResponseEntity.ok(updatedBooking);
+        } else if (booking.getStatus().equals(Status.BILLED.toString())) {
+            booking.setStatus(Status.PAYED.toString());
             final Booking updatedBooking = bookingRepository.save(booking);
             return ResponseEntity.ok(updatedBooking);
         }
