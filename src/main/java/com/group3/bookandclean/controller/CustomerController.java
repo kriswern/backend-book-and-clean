@@ -1,16 +1,11 @@
 package com.group3.bookandclean.controller;
 
-
-import com.group3.bookandclean.entity.PriceList;
-import com.group3.bookandclean.entity.User;
+import com.group3.bookandclean.entity.*;
+import com.group3.bookandclean.repository.BillsRepository;
 import com.group3.bookandclean.repository.PriceListRepository;
-import com.group3.bookandclean.request.BookingRequest;
-import com.group3.bookandclean.entity.Booking;
-import com.group3.bookandclean.entity.Customer;
+import com.group3.bookandclean.request.*;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
-import com.group3.bookandclean.request.ByIdRequest;
-import com.group3.bookandclean.request.RejectCleaningRequest;
 import com.group3.bookandclean.services.BookingService;
 import com.group3.bookandclean.services.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Long.parseLong;
 
 @Slf4j
 @RestController
@@ -44,6 +39,9 @@ public class CustomerController {
 
     @Autowired
     PriceListRepository priceListRepository;
+
+    @Autowired
+    BillsRepository billsRepository;
 
     @PostMapping(value = "/addbooking")
     public ResponseEntity<?> addBooking(@RequestBody BookingRequest request) throws ParseException {
@@ -104,8 +102,34 @@ public class CustomerController {
 
         return priceListRepository.findAll();
     }
-}
 
+    @GetMapping("/bills")
+    public List<Bills> getBills(@RequestParam String email) {
+        User user = userService.getUser(email);
+        Customer customer = customerRepository.findCustomerByUser(user);
+
+        return billsRepository.findBillsByCustomer(customer);
+
+    }
+
+    @PostMapping("/bookings-from-bill")
+    public List<Booking> getBookingsInBill(@RequestBody BookingsInBillRequest request) {
+        List<Booking> bookingsInBill = new ArrayList<>();
+        for (Long id : request.getBookingIds()) {
+            bookingsInBill.add(bookingRepository.findById(id).get());
+        }
+        return bookingsInBill;
+    }
+
+    @PostMapping("/pay-for-bill")
+    public Boolean payForBill(@RequestBody PayBillRequest request) {
+        for (Long id : request.getBookingIds()) {
+            bookingService.updateStatus(String.valueOf(id));
+        }
+        billsRepository.deleteById(request.getBillId());
+        return true;
+    }
+}
 
 
 
