@@ -6,7 +6,7 @@ import com.group3.bookandclean.entity.Customer;
 import com.group3.bookandclean.repository.BillsRepository;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
-import com.group3.bookandclean.request.BillRequest;
+import com.group3.bookandclean.model.BillRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

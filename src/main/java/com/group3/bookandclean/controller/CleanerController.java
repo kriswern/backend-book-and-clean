@@ -6,7 +6,7 @@ import com.group3.bookandclean.entity.Cleaner;
 import com.group3.bookandclean.entity.User;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CleanerRepository;
-import com.group3.bookandclean.request.ByIdRequest;
+import com.group3.bookandclean.model.ByIdRequest;
 import com.group3.bookandclean.services.BookingService;
 import com.group3.bookandclean.services.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;

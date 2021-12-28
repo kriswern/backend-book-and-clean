@@ -1,4 +1,4 @@
-package com.group3.bookandclean.request;
+package com.group3.bookandclean.model;
 
 
 import lombok.Data;

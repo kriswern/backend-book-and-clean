@@ -2,8 +2,11 @@ package com.group3.bookandclean.controller;
 
 
 import com.group3.bookandclean.entity.*;
+import com.group3.bookandclean.model.AddCleanerRequest;
+import com.group3.bookandclean.model.BillRequest;
+import com.group3.bookandclean.model.BookingRequest;
+import com.group3.bookandclean.model.ByIdRequest;
 import com.group3.bookandclean.repository.*;
-import com.group3.bookandclean.request.*;
 import com.group3.bookandclean.services.AdminService;
 import com.group3.bookandclean.services.BookingService;
 import lombok.extern.slf4j.Slf4j;

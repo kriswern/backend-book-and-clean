@@ -6,7 +6,7 @@ import com.group3.bookandclean.entity.User;
 import com.group3.bookandclean.repository.CleanerRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
 import com.group3.bookandclean.repository.UserRepository;
-import com.group3.bookandclean.request.RegisterRequest;
+import com.group3.bookandclean.model.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
