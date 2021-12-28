@@ -112,15 +112,6 @@ public class CustomerController {
 
     }
 
-    @PostMapping("/bookings-from-bill")
-    public List<Booking> getBookingsInBill(@RequestBody BookingsInBillRequest request) {
-        List<Booking> bookingsInBill = new ArrayList<>();
-        for (Long id : request.getBookingIds()) {
-            bookingsInBill.add(bookingRepository.findById(id).get());
-        }
-        return bookingsInBill;
-    }
-
     @PostMapping("/pay-for-bill")
     public Boolean payForBill(@RequestBody PayBillRequest request) {
         for (Long id : request.getBookingIds()) {

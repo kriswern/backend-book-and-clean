@@ -6,9 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface CleanerRepository extends JpaRepository<Cleaner, Long> {
-
-/*    @Query("SELECT b FROM Booking b WHERE b.cleanerId = ?1")
-    List<Booking> fetchBookingsByCleanerId(Long cleanerId);*/
     Cleaner findCleanerByUser(User user);
-
 }
