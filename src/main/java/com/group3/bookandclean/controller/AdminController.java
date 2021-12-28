@@ -58,8 +58,9 @@ public class AdminController {
     }
 
     @GetMapping("/priceList")
-    public List<PriceList> fetchPriceList(){
-        return priceListRepository.findAll();}
+    public List<PriceList> fetchPriceList() {
+        return priceListRepository.findAll();
+    }
 
     @PostMapping(value = "/addbooking")
     public ResponseEntity<?> addBooking(@RequestBody BookingRequest request) throws ParseException {
@@ -88,15 +89,15 @@ public class AdminController {
         return cleaner.getName();
     }
 
-    @PostMapping ("/addbill")
-    public boolean addBill(@RequestBody BillRequest billRequest){
+    @PostMapping("/addbill")
+    public boolean addBill(@RequestBody BillRequest billRequest) {
         return adminService.addBill(billRequest);
     }
 
-    @PutMapping ("/updatebookingbill")
-    public boolean updateBookingStatus(@RequestBody List<Long> bookingIds){
+    @PutMapping("/updatebookingbill")
+    public boolean updateBookingStatus(@RequestBody List<Long> bookingIds) {
 
-        for(Long id : bookingIds){
+        for (Long id : bookingIds) {
             bookingService.changeStatusBilled(id);
         }
         return true;

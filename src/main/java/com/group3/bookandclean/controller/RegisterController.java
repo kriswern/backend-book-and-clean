@@ -44,7 +44,7 @@ public class RegisterController {
                 .build();
         userRepository.save(user);
 
-        if (registerForm.getType().equals("cleaner")){
+        if (registerForm.getType().equals("cleaner")) {
             Cleaner cleaner = Cleaner.builder()
                     .name(registerForm.getName())
                     .address(registerForm.getAddress())
@@ -52,7 +52,7 @@ public class RegisterController {
                     .build();
             cleanerRepository.save(cleaner);
 
-        }else {
+        } else {
             Customer customer = Customer.builder()
                     .name(registerForm.getName())
                     .address(registerForm.getAddress())

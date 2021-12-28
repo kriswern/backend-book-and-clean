@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 public class BillRequest {
-   private Long customerId;
-   private Double total;
-   private List<Long> bookingIds;
+    private Long customerId;
+    private Double total;
+    private List<Long> bookingIds;
 }

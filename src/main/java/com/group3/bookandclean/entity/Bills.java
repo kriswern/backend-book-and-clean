@@ -27,7 +27,7 @@ public class Bills {
     @Column(nullable = false)
     private Double total;
 
-    @OneToMany (targetEntity = Booking.class, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Booking.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "bookings")
     private List<Booking> bookings;
 
