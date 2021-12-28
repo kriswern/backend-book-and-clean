@@ -1,9 +1,12 @@
 package com.group3.bookandclean.controller;
 
 import com.group3.bookandclean.entity.*;
+import com.group3.bookandclean.model.BookingRequest;
+import com.group3.bookandclean.model.ByIdRequest;
+import com.group3.bookandclean.model.PayBillRequest;
+import com.group3.bookandclean.model.RejectCleaningRequest;
 import com.group3.bookandclean.repository.BillsRepository;
 import com.group3.bookandclean.repository.PriceListRepository;
-import com.group3.bookandclean.request.*;
 import com.group3.bookandclean.repository.BookingRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
 import com.group3.bookandclean.services.BookingService;
@@ -14,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -110,15 +112,6 @@ public class CustomerController {
 
         return billsRepository.findBillsByCustomer(customer);
 
-    }
-
-    @PostMapping("/bookings-from-bill")
-    public List<Booking> getBookingsInBill(@RequestBody BookingsInBillRequest request) {
-        List<Booking> bookingsInBill = new ArrayList<>();
-        for (Long id : request.getBookingIds()) {
-            bookingsInBill.add(bookingRepository.findById(id).get());
-        }
-        return bookingsInBill;
     }
 
     @PostMapping("/pay-for-bill")

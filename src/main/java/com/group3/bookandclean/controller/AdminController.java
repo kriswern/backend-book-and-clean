@@ -2,8 +2,11 @@ package com.group3.bookandclean.controller;
 
 
 import com.group3.bookandclean.entity.*;
+import com.group3.bookandclean.model.AddCleanerRequest;
+import com.group3.bookandclean.model.BillRequest;
+import com.group3.bookandclean.model.BookingRequest;
+import com.group3.bookandclean.model.ByIdRequest;
 import com.group3.bookandclean.repository.*;
-import com.group3.bookandclean.request.*;
 import com.group3.bookandclean.services.AdminService;
 import com.group3.bookandclean.services.BookingService;
 import lombok.extern.slf4j.Slf4j;
@@ -58,8 +61,9 @@ public class AdminController {
     }
 
     @GetMapping("/priceList")
-    public List<PriceList> fetchPriceList(){
-        return priceListRepository.findAll();}
+    public List<PriceList> fetchPriceList() {
+        return priceListRepository.findAll();
+    }
 
     @PostMapping(value = "/addbooking")
     public ResponseEntity<?> addBooking(@RequestBody BookingRequest request) throws ParseException {
@@ -88,15 +92,15 @@ public class AdminController {
         return cleaner.getName();
     }
 
-    @PostMapping ("/addbill")
-    public boolean addBill(@RequestBody BillRequest billRequest){
+    @PostMapping("/addbill")
+    public boolean addBill(@RequestBody BillRequest billRequest) {
         return adminService.addBill(billRequest);
     }
 
-    @PutMapping ("/updatebookingbill")
-    public boolean updateBookingStatus(@RequestBody List<Long> bookingIds){
+    @PutMapping("/updatebookingbill")
+    public boolean updateBookingStatus(@RequestBody List<Long> bookingIds) {
 
-        for(Long id : bookingIds){
+        for (Long id : bookingIds) {
             bookingService.changeStatusBilled(id);
         }
         return true;

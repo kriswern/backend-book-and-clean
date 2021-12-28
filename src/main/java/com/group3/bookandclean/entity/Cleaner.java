@@ -1,5 +1,4 @@
 package com.group3.bookandclean.entity;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;

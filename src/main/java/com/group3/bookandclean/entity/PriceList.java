@@ -23,5 +23,4 @@ public class PriceList {
     private Double price;
 
 
-
 }

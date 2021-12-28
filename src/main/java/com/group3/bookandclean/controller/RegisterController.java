@@ -6,7 +6,7 @@ import com.group3.bookandclean.entity.User;
 import com.group3.bookandclean.repository.CleanerRepository;
 import com.group3.bookandclean.repository.CustomerRepository;
 import com.group3.bookandclean.repository.UserRepository;
-import com.group3.bookandclean.request.RegisterRequest;
+import com.group3.bookandclean.model.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +44,7 @@ public class RegisterController {
                 .build();
         userRepository.save(user);
 
-        if (registerForm.getType().equals("cleaner")){
+        if (registerForm.getType().equals("cleaner")) {
             Cleaner cleaner = Cleaner.builder()
                     .name(registerForm.getName())
                     .address(registerForm.getAddress())
@@ -52,7 +52,7 @@ public class RegisterController {
                     .build();
             cleanerRepository.save(cleaner);
 
-        }else {
+        } else {
             Customer customer = Customer.builder()
                     .name(registerForm.getName())
                     .address(registerForm.getAddress())
